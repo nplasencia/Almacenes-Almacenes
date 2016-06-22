@@ -41,6 +41,8 @@
 <!-- Screenfull -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/screenfull.js/2.0.0/screenfull.min.js"></script>
 
+<script src="{{ asset('assets/lib/jquery-inputlimiter/jquery.inputlimiter.1.3.1.min.js') }}"></script>
+
 <!-- Metis core scripts -->
 <script src="{{ asset('assets/js/core.min.js') }}"></script>
 

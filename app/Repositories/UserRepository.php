@@ -5,7 +5,8 @@ namespace App\Repositories;
 use App\Entities\User;
 use Illuminate\Contracts\Auth\Guard;
 
-class UserRepository extends BaseRepository{
+class UserRepository extends BaseRepository
+{
     
     public function getEntity()
     {
@@ -19,7 +20,7 @@ class UserRepository extends BaseRepository{
         $user->surname   = $surname;
         $user->telephone = $telephone;
         $user->email     = $email;
-        $user->save();
+        $user->update();
         return $user;
     }
 }

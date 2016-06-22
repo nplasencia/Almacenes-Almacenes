@@ -12,9 +12,14 @@
 */
 
 use App\Commons\UserContract;
+use App\Commons\CenterContract;
 use App\Entities\User;
+use App\Entities\Center;
 
-$factory->define(User::class, function (Faker\Generator $faker) {
+$factory->define(User::class, function () {
+
+    $faker = Faker\Factory::create("es_ES");
+
     return [
         UserContract::NAME      => $faker->firstName,
         UserContract::SURNAME   => $faker->lastName,
@@ -23,5 +28,18 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         UserContract::ROLE      => array_rand(['Admin', 'AdvUser', 'User']),
         UserContract::PASSWORD  => bcrypt(str_random(10)),
         'remember_token'        => str_random(10),
+    ];
+});
+
+$factory->define(Center::class, function () {
+
+    $faker = Faker\Factory::create("es_ES");
+
+    return [
+        CenterContract::NAME            => $faker->company,
+        CenterContract::ADDRESS         => $faker->streetAddress,
+        CenterContract::ADDRESS2        => $faker->streetAddress,
+        CenterContract::MUNICIPALITY_ID => rand(1, 88),
+        CenterContract::POSTALCODE      => $faker->postcode,
     ];
 });

@@ -4,7 +4,8 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
-abstract class BaseRepository {
+abstract class BaseRepository
+{
 
     /**
      * @return \App\Entities\Entity
@@ -17,7 +18,8 @@ abstract class BaseRepository {
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function newQuery() {
+    public function newQuery()
+    {
         return $this->getEntity()->newQuery();
     }
 

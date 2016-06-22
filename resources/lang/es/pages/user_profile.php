@@ -2,6 +2,7 @@
 
 return [
 
+    'title'     => 'Datos de usuario',
     'image'     => 'Imagen (Sólo .jpg/.jpeg)',
     'name'      => 'Nombre',
     'surname'   => 'Apellidos',

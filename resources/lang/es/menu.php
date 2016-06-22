@@ -13,6 +13,7 @@ return [
     |
     */
 
+    'centers'      => 'Centros',
     'dashboard'    => 'Cuadro de mandos',
     'user_profile' => 'Configuración cuenta',
 ];

@@ -15,7 +15,6 @@ use App\Repositories\UserRepository;
 class UserController extends Controller
 {
     protected $icon  = 'fa fa-user';
-    protected $defaultImage = 'assets/img/user.gif';
     protected $userRepository;
 
     public function __construct(UserRepository $userRepository)

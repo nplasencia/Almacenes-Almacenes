@@ -117,6 +117,9 @@ return [
         'surname'           => 'Apellidos',
         'telephone'         => 'Teléfono',
         'image'             => 'Imagen',
+
+        // Center
+        'municipality_id'   => 'Municipio',
     ],
 
 ];

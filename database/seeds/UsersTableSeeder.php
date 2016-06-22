@@ -28,5 +28,22 @@ class UsersTableSeeder extends Seeder
             UserContract::ROLE      => 'superAdmin',
             UserContract::PASSWORD  =>  bcrypt('admin'),
         ]);
+
+        factory(User::class)->create([
+            UserContract::NAME      => 'Andrés',
+            UserContract::SURNAME   => 'Poch Barrera',
+            UserContract::EMAIL     => 'andrespbarrera@gmail.com',
+            UserContract::TELEPHONE => '687866335',
+            UserContract::ROLE      => 'superAdmin',
+            UserContract::PASSWORD  =>  bcrypt('admin'),
+        ]);
+
+        factory(User::class)->create([
+            UserContract::NAME      => 'Mario',
+            UserContract::SURNAME   => 'Cruz',
+            UserContract::EMAIL     => 'mario@alcruzcanarias.com',
+            UserContract::ROLE      => 'superAdmin',
+            UserContract::PASSWORD  =>  bcrypt('admin'),
+        ]);
     }
 }

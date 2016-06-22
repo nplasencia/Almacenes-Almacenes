@@ -28,7 +28,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectPath = '/dashboard';
+    protected $redirectPath = '/centers';
     protected $loginPath = '/login';
     protected $redirectAfterLogout = '/login';
     protected $redirectTo = '/login';

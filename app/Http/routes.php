@@ -27,8 +27,36 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
+    Route::get('centers', 'CenterController@all')->name('center.resume');
+
+    Route::post('centerSearch', 'CenterController@search')->name('center.search');
+
+    Route::get ('center/{id}', 'CenterController@details')->name('center.details');
+    Route::post('center/{id}', 'CenterController@update')->name('center.update');
+
+    Route::get ('centerDelete/{id}', 'CenterController@delete')->name('center.delete');
+    Route::delete('centerDelete/{id}', 'CenterController@delete')->name('center.delete');
+
     Route::get('user' , 'UserController@resume')->name('user_profile.resume');
     Route::get('userImage', 'UserController@getProfileImage')->name('user_profile.image');
     Route::post('user', 'UserController@update')->name('user_profile.update');
     
+});
+
+// Centers
+Route::group(['middleware' => 'auth'], function() {
+
+    Route::get('centers', 'CenterController@all')->name('center.resume');
+
+    Route::post('centerSearch', 'CenterController@search')->name('center.search');
+
+    Route::get ('newCenter', 'CenterController@create')->name('center.create');
+    Route::post('newCenter', 'CenterController@store')->name('center.store');
+
+    Route::get ('center/{id}', 'CenterController@details')->name('center.details');
+    Route::post('center/{id}', 'CenterController@update')->name('center.update');
+
+    Route::get ('centerDelete/{id}', 'CenterController@delete')->name('center.delete');
+    Route::delete('centerDelete/{id}', 'CenterController@delete')->name('center.delete');
+
 });
