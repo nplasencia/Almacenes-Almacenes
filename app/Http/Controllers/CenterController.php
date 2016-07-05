@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\MunicipalityRepository;
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use App\Entities\Center;
 use App\Repositories\CenterRepository;
+use App\Repositories\MunicipalityRepository;
+
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
+use Yajra\Datatables\Datatables;
 
 class CenterController extends Controller
 {
     protected $defaultPagination = 25;
     protected $icon        = 'fa fa-building';
     protected $titleResume = 'menu.centers';
-    protected $titleNew    = 'pages/center.newCenterTitle';
-    protected $searchRoute = 'center.search';
+    protected $titleNew    = 'pages/center.newTitle';
 
     protected $centerRepository;
     protected $municipalityRepository;
@@ -36,17 +39,38 @@ class CenterController extends Controller
             'postalCode'      => 'numeric'
         ]);
     }
-    
-    public function resume($centers)
+
+    protected function getTableActionButtons(Center $center)
     {
-        return view('pages.centers.resume', ['title' => trans($this->titleResume), 'icon' => $this->icon, 'centers' => $centers,
-                                             'searchRoute' => $this->searchRoute, 'paginationClass' => $centers]);
+        return '<div class="btn-group">
+                    <a href="'.route('center.details', $center->id).'" data-toggle="tooltip" data-original-title="'.trans('general.edit').'" data-placement="bottom" class="btn btn-success btn-xs">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </div>
+                
+                <div class="btn-group">
+                    <a href="'.route('center.delete', $center->id).'" data-toggle="tooltip" data-original-title="'.trans('general.remove').'" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </div>';
     }
 
-    public function all()
+    public function ajaxResume()
+    {
+        return Datatables::of($this->centerRepository->getAll())
+            ->addColumn('emptySpace', function (Center $center) {
+                return $center->emptySpace();
+            })
+            ->addColumn('actions', function (Center $center) {
+                return $this->getTableActionButtons($center);
+            })
+            ->make(true);
+    }
+
+    public function resume()
     {
         $centers = $this->centerRepository->getAllPaginated($this->defaultPagination);
-        return $this->resume($centers);
+        return view('pages.centers.resume', ['title' => trans($this->titleResume), 'icon' => $this->icon, 'centers' => $centers]);
     }
 
     public function create()
@@ -68,11 +92,12 @@ class CenterController extends Controller
         $this->genericValidation($request);
         try {
             $center = $this->centerRepository->create($request->only(['name', 'address', 'address2', 'municipality_id', 'postalCode']));
+            session(['center_id'], $center);
             session()->flash('success', trans('pages/center.store_success',['Name' => $center->name, 'Municipality' => $center->municipality->name]));
         } catch (\PDOException $exception) {
             session()->flash('info', trans('pages/center.store_exists', ['Name' => $request->get('name')]));
         } finally {
-            return Redirect::route('center.create');
+            return Redirect::route('center.resume');
         }
     }
 
@@ -87,20 +112,16 @@ class CenterController extends Controller
     public function delete($id)
     {
         $center = $this->centerRepository->deleteById($id);
+        if (session('center_id') == $id) {
+            session()->forget('center_id');
+        }
         session()->flash('success', trans('pages/center.delete_success',['Name' => $center->name, 'Municipality' => $center->municipality->name]));
-        return $this->all();
+        return $this->resume();
     }
 
-    public function search(Request $request)
+    public function change(Request $request)
     {
-        if ($request->get('item') != '') {
-            $centers = $this->centerRepository->searchPaginated($request->get('item'), $this->defaultPagination);
-
-            if (sizeof($centers) != 0) {
-                return $this->resume($centers);
-            }
-            session()->flash('info', trans('pages/center.search_no_found'));
-        }
-        return $this->all();
+        session(['center_id' => $request->get('center_id')]);
+        return Redirect::back();
     }
 }

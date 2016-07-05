@@ -28,11 +28,13 @@ class User extends Authenticatable
         UserContract::PASSWORD, 'remember_token',
     ];
 
-    public function getCompleteName() {
+    public function getCompleteName()
+    {
         return $this->name.' '.$this->surname;
     }
 
-    public function hasProfileImage() {
+    public function hasProfileImage()
+    {
         if (Storage::disk('public')->exists('avatar'.'/'.$this->id.'.jpg')) {
             return true;
         } else {

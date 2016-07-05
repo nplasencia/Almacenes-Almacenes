@@ -8,7 +8,7 @@
                     <div class="icons">
                         <i class="fa fa-building"></i>
                     </div>
-                    <h5>@lang('pages/center.centerDataTitle')</h5>
+                    <h5>@lang('pages/center.dataTitle')</h5>
 
                     @include('partials.window_options')
                 </header>
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="municipality_id">@lang('pages/center.municipality')</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="@lang('pages/center.selectMunicipality')" class="form-control chzn-select" name="municipality_id" id="municipality_id">
+                                <select data-placeholder="@lang('pages/center.selectMunicipality')" class="form-control chosen-select" name="municipality_id" id="municipality_id">
                                     <option value=""></option>
                                     @foreach($municipalities as $municipality)
                                         <option value="{{ $municipality->id }}"

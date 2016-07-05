@@ -11,10 +11,14 @@
 |
 */
 
-use App\Commons\UserContract;
-use App\Commons\CenterContract;
 use App\Entities\User;
 use App\Entities\Center;
+use App\Entities\Store;
+
+use App\Commons\UserContract;
+use App\Commons\CenterContract;
+use App\Commons\StoreContract;
+
 
 $factory->define(User::class, function () {
 
@@ -28,6 +32,7 @@ $factory->define(User::class, function () {
         UserContract::ROLE      => array_rand(['Admin', 'AdvUser', 'User']),
         UserContract::PASSWORD  => bcrypt(str_random(10)),
         'remember_token'        => str_random(10),
+        UserContract::CENTER_ID => random_int(1, 100),
     ];
 });
 
@@ -41,5 +46,18 @@ $factory->define(Center::class, function () {
         CenterContract::ADDRESS2        => $faker->streetAddress,
         CenterContract::MUNICIPALITY_ID => rand(1, 88),
         CenterContract::POSTALCODE      => $faker->postcode,
+    ];
+});
+
+$factory->define(Store::class, function () {
+
+    $faker = Faker\Factory::create("es_ES");
+
+    return [
+        StoreContract::NAME      => $faker->streetName,
+        StoreContract::CENTER_ID => random_int(1, 100),
+        StoreContract::ROWS      => random_int(1, 10),
+        StoreContract::COLUMNS   => random_int(1, 10),
+        StoreContract::LONGITUDE => random_int(1, 5),
     ];
 });

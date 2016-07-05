@@ -17,10 +17,9 @@
                             <span class="link-title">&nbsp;@lang('pages/center.newButton')</span>
                         </a>
 
-                        @include('partials.searchbox')
                     </div>
 
-                    <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table">
+                    <table id="centersResumeTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th class="text-center">@lang('pages/center.name')</th>
@@ -28,6 +27,7 @@
                             <th class="text-center">@lang('pages/center.postalCode')</th>
                             <th class="text-center">@lang('pages/center.municipality')</th>
                             <th class="text-center">@lang('pages/center.island')</th>
+                            <th class="text-center">@lang('pages/store.emptySpaces')</th>
                             <th style="min-width: 62px;">&nbsp;</th>
                         </tr>
                         </thead>
@@ -39,6 +39,7 @@
                                 <td>{{ $center->postalCode }}</td>
                                 <td>{{ $center->municipality->name }}</td>
                                 <td>{{ $center->municipality->island->name }}</td>
+                                <td class="text-center">{{ $center->emptySpace() }}</td>
                                 <td align="right" style="vertical-align: middle;">
                                     <div class="btn-group">
                                         <a href="{{ route('center.details', $center->id) }}" data-toggle="tooltip" data-original-title="@lang('general.edit')" data-placement="bottom" class="btn btn-success btn-xs">
@@ -56,9 +57,34 @@
                         </tbody>
                     </table>
 
-                    @include ('partials.pagination')
                 </div>
             </div>
         </div>
     </div>
-@endsection
+@stop
+@push('scripts')
+<script src="{{ asset('/assets/js/datatables.min.js') }}"></script>
+
+<script>
+    $(function() {
+        $('#centersResumeTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{!! route('center.ajaxResume') !!}",
+            columns: [
+                { data: 'name', name: 'name'},
+                { data: 'address', name: 'address'},
+                { data: 'postalCode', name: 'postalCode'},
+                { data: 'municipality.name', name: 'municipality.name'},
+                { data: 'municipality.island.name', name: 'municipality.island.name'},
+                { data: 'emptySpace', searchable: false},
+                { data: 'actions', name: 'actions', orderable: false, searchable: false}
+            ],
+            "aoColumnDefs": [
+                { "sClass": "text-right" , "aTargets": [6] },
+                { "sClass": "text-center", "aTargets": [5] }
+            ]
+        });
+    });
+</script>
+@endpush

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Commons\CenterContract;
-use App\Commons\MunicipalicityContract;
 use App\Entities\Center;
 
 class CenterRepository extends BaseRepository
@@ -14,9 +13,19 @@ class CenterRepository extends BaseRepository
         return new Center();
     }
 
+    public function getAll()
+    {
+        return $this->newQuery()->orderBy(CenterContract::NAME, 'ASC')->with('municipality.island')->get();
+    }
+
+    public function getAllWithoutMunicipalities()
+    {
+        return $this->newQuery()->orderBy(CenterContract::NAME, 'ASC')->get();
+    }
+
     public function getAllPaginated($numberOfElements)
     {
-        return $this->newQuery()->orderBy(CenterContract::NAME, 'ASC')->with('municipality')->paginate($numberOfElements);
+        return $this->newQuery()->orderBy(CenterContract::NAME, 'ASC')->with('municipality.island')->paginate($numberOfElements);
     }
 
     public function update($id, array $data)
@@ -30,27 +39,5 @@ class CenterRepository extends BaseRepository
         $center->update();
         return $center;
     }
-
-    public function searchPaginated($item, $numberOfElements)
-    {
-        return $this->newQuery()->orderBy(CenterContract::NAME, 'ASC')->with('municipality')
-                ->where(CenterContract::NAME, 'LIKE', '%'.$item.'%')
-                ->orWhere(CenterContract::ADDRESS, 'LIKE', '%'.$item.'%')
-                ->orWhere(CenterContract::ADDRESS2, 'LIKE', '%'.$item.'%')
-                ->paginate($numberOfElements);
-
-        /*
-         return DB::table(CenterContract::TABLE_NAME)
-                   ->join(MunicipalicityContract::TABLE_NAME, 'centers.municipality_id', '=', 'municipalities.id')
-                   ->join(IslandContract::TABLE_NAME, 'municipalities.island_id', '=', 'islands.id')
-                   ->where('centers.name', 'LIKE', '%'.$item.'%')
-                   ->orWhere(CenterContract::ADDRESS, 'LIKE', '%'.$item.'%')
-                   ->orWhere(CenterContract::ADDRESS2, 'LIKE', '%'.$item.'%')
-                   ->orWhere('municipalities.name', 'LIKE', '%'.$item.'%')
-                   ->orWhere('islands.name', 'LIKE', '%'.$item.'%')
-                   ->orderBy('centers.name')->paginate($numberOfElements);
-         */
-    }
-    
     
 }

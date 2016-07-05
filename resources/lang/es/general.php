@@ -3,23 +3,25 @@
 return [
 
     //Roles
-    'SuperAdmin'  => 'Superadministrador',
-    'Admin'       => 'Administrador',
-    'AdvUser'     => 'Usuario avanzado',
-    'User'        => 'Usuario',
+    'SuperAdmin'       => 'Superadministrador',
+    'Admin'            => 'Administrador',
+    'AdvUser'          => 'Usuario avanzado',
+    'User'             => 'Usuario',
 
-    'top_text'    => 'Por favor, revisa los problemas indicados en la siguiente lista:',
-    'enter'       => 'Entrar',
-    'save'        => 'Guardar',
-    'update'      => 'Actualizar',
-    'cancel'      => 'Cancelar',
-    'edit'        => 'Modificar',
-    'remove'      => 'Eliminar',
+    'top_text'         => 'Por favor, revisa los problemas indicados en la siguiente lista:',
+    'enter'            => 'Entrar',
+    'save'             => 'Guardar',
+    'update'           => 'Actualizar',
+    'cancel'           => 'Cancelar',
+    'edit'             => 'Modificar',
+    'remove'           => 'Eliminar',
     
     // Menú superior
-    'fullScreen'  => 'Pantalla completa',
-    'messages'    => 'Mensajes',
-    'help'        => 'Ayuda',
-    'logout'      => 'Desconectar',
-    'showHideMenu'=> 'Mostrar/ocultar menú',
+    'centerSelect'     => 'Centro de trabajo:',
+    'centerSelectText' => 'Seleccione un centro de trabajo',
+    'fullScreen'       => 'Pantalla completa',
+    'messages'         => 'Mensajes',
+    'help'             => 'Ayuda',
+    'logout'           => 'Desconectar',
+    'showHideMenu'     => 'Mostrar/ocultar menú',
 ];

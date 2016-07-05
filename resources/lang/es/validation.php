@@ -120,6 +120,11 @@ return [
 
         // Center
         'municipality_id'   => 'Municipio',
+
+        // Store
+        'rows'              => 'Filas',
+        'columns'           => 'columnas',
+        'longitude'         => 'Fondo',
     ],
 
 ];

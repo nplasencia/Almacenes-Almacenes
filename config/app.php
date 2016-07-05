@@ -168,6 +168,15 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
 
+        /*
+         * Datatables
+         */
+        Yajra\Datatables\DatatablesServiceProvider::class,
+
+        /*
+         * Enums
+         */
+        Artisaninweb\Enum\EnumServiceProvider::class,
     ],
 
     /*
@@ -217,10 +226,14 @@ return [
         /*
          * Laravel collective
          */
-        'Form'      => Collective\Html\FormFacade::class,
-        'Html'      => Collective\Html\HtmlFacade::class,
+        'Form'       => Collective\Html\FormFacade::class,
+        'Html'       => Collective\Html\HtmlFacade::class,
 
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Debugbar'   => Barryvdh\Debugbar\Facade::class,
+
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+
+        'EnumMap'    => Artisaninweb\Enum\Facades\EnumFacade::class,
     ],
 
 ];

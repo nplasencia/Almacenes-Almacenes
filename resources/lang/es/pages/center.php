@@ -9,8 +9,8 @@ return [
     'postalCode'         => 'Código postal',
     'island'             => 'Isla',
     'centerDataTitle'    => 'Datos del centro',
-    'newCenterTitle'     => 'Nuevo centro',
-    'detailsTitle' => 'Centro :Center (:Municipality - :Island)',
+    'newTitle'           => 'Nuevo centro',
+    'detailsTitle'       => 'Centro :Center (:Municipality - :Island)',
 
     // Selects
     'selectMunicipality' => 'Selecciona un municipio ...',

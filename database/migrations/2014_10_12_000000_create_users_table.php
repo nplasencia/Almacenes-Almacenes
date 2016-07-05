@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string(UserContract::TELEPHONE);
             $table->enum(UserContract::ROLE, ['SuperAdmin', 'Admin', 'AdvUser', 'User']);
             $table->string(UserContract::PASSWORD);
+            $table->unsignedInteger(UserContract::CENTER_ID)->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
         });

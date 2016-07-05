@@ -11,7 +11,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="#" class="navbar-brand">
-                <img src="{{ asset('assets/img/logo_min.png') }}" alt="" style="margin: 13px 0px 0px 5px;">
+                <img src="{{ asset('assets/img/logo_min.png') }}" alt="" style="margin: 13px 0 0 5px;">
             </a>
         </header>
         <div class="topnav">
@@ -45,12 +45,21 @@
                 <a data-placement="bottom" data-original-title="@lang('general.showHideMenu')" data-toggle="tooltip" class="btn btn-default btn-sm toggle-right"> <span class="glyphicon glyphicon-comment"></span>  </a>
             </div>
         </div>
+        @include('partials.center_emptySpace')
+
+        @if(Auth::user()->role == 'SuperAdmin')
+            @include('partials.centers_select')
+        @endif
+
         <div class="collapse navbar-collapse navbar-ex1-collapse">
 
             <!-- .nav -->
             <ul class="nav navbar-nav">
                 <li>
                     <a href="{{ route('center.create') }}">@lang('pages/center.newButton')</a>
+                </li>
+                <li>
+                    <a href="{{ route('store.create') }}">@lang('pages/store.newButton')</a>
                 </li>
             </ul><!-- /.nav -->
         </div>

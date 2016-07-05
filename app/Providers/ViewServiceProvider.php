@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
-use App\Http\ViewComposers\PaginationComposer;
-use Illuminate\Support\ServiceProvider;
+use App\Http\ViewComposers\CenterSelectComposer;
+use App\Http\ViewComposers\CenterEmptySpaceComposer;
+
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -15,10 +17,10 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(
-            'partials.pagination',
-            PaginationComposer::class
-        );
+        View::composers([
+            CenterSelectComposer::class      => 'partials.centers_select',
+            CenterEmptySpaceComposer::class => 'partials.center_emptySpace',
+        ]);
     }
 
     /**

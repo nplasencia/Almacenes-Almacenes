@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'centers'      => 'Centros',
     'dashboard'    => 'Cuadro de mandos',
+    'centers'      => 'Centros',
+    'stores'       => 'Almacenes',
     'user_profile' => 'Configuración cuenta',
 ];

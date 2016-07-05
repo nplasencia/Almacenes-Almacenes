@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Entities\User;
-use Validator;
 use App\Http\Controllers\Controller;
+
+use Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -75,12 +78,35 @@ class AuthController extends Controller
     }
 
     /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  bool  $throttles
+     * @return \Illuminate\Http\Response
+     */
+    protected function handleUserWasAuthenticated(Request $request, $throttles)
+    {
+        if ($throttles) {
+            $this->clearLoginAttempts($request);
+        }
+
+        session(['center_id' => Auth::user()->center_id]);
+
+        if (method_exists($this, 'authenticated')) {
+            return $this->authenticated($request, Auth::guard($this->getGuard())->user());
+        }
+        
+        return redirect()->intended($this->redirectPath());
+    }
+
+    /**
      * Log the user out of the application.
      *
      * @return \Illuminate\Http\Response
      */
     public function getLogout()
     {
+        session()->flush();
         return $this->logout();
     }
 }

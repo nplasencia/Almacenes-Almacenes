@@ -10,5 +10,6 @@ class UserContract extends AppContract {
         EMAIL      = 'email',
         TELEPHONE  = 'telephone',
         ROLE       = 'role',
-        PASSWORD   = 'password';
+        PASSWORD   = 'password',
+        CENTER_ID  = 'center_id';
 }

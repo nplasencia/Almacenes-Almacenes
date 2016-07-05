@@ -27,6 +27,7 @@ class UsersTableSeeder extends Seeder
             UserContract::TELEPHONE => '620467068',
             UserContract::ROLE      => 'superAdmin',
             UserContract::PASSWORD  =>  bcrypt('admin'),
+            UserContract::CENTER_ID => NULL,
         ]);
 
         factory(User::class)->create([
@@ -36,6 +37,7 @@ class UsersTableSeeder extends Seeder
             UserContract::TELEPHONE => '687866335',
             UserContract::ROLE      => 'superAdmin',
             UserContract::PASSWORD  =>  bcrypt('admin'),
+            UserContract::CENTER_ID => NULL,
         ]);
 
         factory(User::class)->create([
@@ -44,6 +46,7 @@ class UsersTableSeeder extends Seeder
             UserContract::EMAIL     => 'mario@alcruzcanarias.com',
             UserContract::ROLE      => 'superAdmin',
             UserContract::PASSWORD  =>  bcrypt('admin'),
+            UserContract::CENTER_ID => NULL,
         ]);
     }
 }

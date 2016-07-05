@@ -1,5 +1,8 @@
 <?php
 
+use App\Commons\StoreContract;
+use App\Commons\CenterContract;
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -12,9 +15,19 @@ class CreateStoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('stores', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create(StoreContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(StoreContract::ID);
+            $table->unsignedInteger(StoreContract::CENTER_ID);
+            $table->string(StoreContract::NAME);
+            $table->unsignedSmallInteger(StoreContract::ROWS);
+            $table->unsignedSmallInteger(StoreContract::COLUMNS);
+            $table->unsignedSmallInteger(StoreContract::LONGITUDE);
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign(StoreContract::CENTER_ID)->references(CenterContract::ID)->on(CenterContract::TABLE_NAME)->onDelete('cascade');
+
+            $table->unique( [StoreContract::CENTER_ID, StoreContract::NAME] );
         });
     }
 
@@ -25,6 +38,6 @@ class CreateStoresTable extends Migration
      */
     public function down()
     {
-        Schema::drop('stores');
+        Schema::drop(StoreContract::TABLE_NAME);
     }
 }
