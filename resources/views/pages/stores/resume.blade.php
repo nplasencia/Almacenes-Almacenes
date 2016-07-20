@@ -26,7 +26,9 @@
                             <th class="text-center">@lang('pages/store.rows')</th>
                             <th class="text-center">@lang('pages/store.columns')</th>
                             <th class="text-center">@lang('pages/store.longitude')</th>
-                            <th class="text-center">@lang('pages/store.emptySpaces')</th>
+                            <th class="text-center">@lang('pages/store.totalSpace')</th>
+                            <th class="text-center">@lang('pages/store.usedSpace')</th>
+                            <th class="text-center">@lang('pages/store.emptySpace')</th>
                             <th style="min-width: 62px;">&nbsp;</th>
                         </tr>
                         </thead>
@@ -37,7 +39,17 @@
                                 <td class="text-center">{{ $store->rows }}</td>
                                 <td class="text-center">{{ $store->columns }}</td>
                                 <td class="text-center">{{ $store->longitude }}</td>
-                                <td class="text-center">{{ $store->emptySpace() }}</td>
+                                <td class="text-center">{{ $store->totalSpace() }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('store.usedSpace', $store->id) }}" data-toggle="tooltip" data-original-title="@lang('pages/store.seeUsedSpace')" data-placement="bottom">
+                                        {{ $store->usedSpace() }}
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ route('store.emptySpace', $store->id) }}" data-toggle="tooltip" data-original-title="@lang('pages/store.seeEmptySpace')" data-placement="bottom">
+                                        {{ $store->emptySpace() }}
+                                    </a>
+                                </td>
                                 <td align="right" style="vertical-align: middle;">
                                     <div class="btn-group">
                                         <a href="{{ route('store.details', $store->id) }}" data-toggle="tooltip" data-original-title="@lang('general.edit')" data-placement="bottom" class="btn btn-success btn-xs">
@@ -69,17 +81,22 @@
             "processing": true,
             "serverSide": true,
             "ajax": "{!! route('store.ajaxResume') !!}",
+            "fnDrawCallback": function() {
+                $('[data-toggle="tooltip"]').tooltip();
+            },
             columns: [
                 { data: 'name', name: 'name'},
                 { data: 'rows', name: 'rows', searchable: false},
                 { data: 'columns', name: 'columns', searchable: false},
                 { data: 'longitude', name: 'longitude', searchable: false},
+                { data: 'totalSpace', name: 'totalSpace', searchable: false},
+                { data: 'usedSpace', name: 'usedSpace', searchable: false},
                 { data: 'emptySpace', name: 'emptySpace', searchable: false},
                 { data: 'actions', name: 'actions', orderable: false, searchable: false}
             ],
             "aoColumnDefs": [
-                { "sClass": "text-right" , "aTargets": [5] },
-                { "sClass": "text-center", "aTargets": [1,2,3,4] }
+                { "sClass": "text-right" , "aTargets": [7] },
+                { "sClass": "text-center", "aTargets": [1,2,3,4,5,6] }
             ]
         });
     });

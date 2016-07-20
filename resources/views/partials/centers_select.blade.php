@@ -1,5 +1,5 @@
 <div class="topnav" style="text-align: left;">
-    <form class="form-horizontal" method="POST" action="{{ route('center.change') }}" style="color: #9d9d9d;">
+    <form class="form-horizontal" method="POST" action="{{ route('center.change') }}" style="color: #9d9d9d; margin-right: 10px;">
         {{ csrf_field() }}
         <label class="control-label" for="center_id">@lang('general.centerSelect')</label>
         <select data-placeholder="@lang('general.centerSelectText')" class="form-control chosen-select" name="center_id" id="center_id">

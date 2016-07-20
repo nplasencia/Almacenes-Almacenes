@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Store;
 use App\Http\Requests;
 use App\Entities\Center;
 use App\Repositories\CenterRepository;
 use App\Repositories\MunicipalityRepository;
 
 
+use App\Repositories\PalletRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
@@ -22,11 +24,13 @@ class CenterController extends Controller
 
     protected $centerRepository;
     protected $municipalityRepository;
+	protected $palletRepository;
 
-    public function __construct(CenterRepository $centerRepository, MunicipalityRepository $municipalityRepository)
+    public function __construct(CenterRepository $centerRepository, MunicipalityRepository $municipalityRepository, PalletRepository $palletRepository)
     {
         $this->centerRepository = $centerRepository;
         $this->municipalityRepository = $municipalityRepository;
+	    $this->palletRepository = $palletRepository;
     }
 
     protected function genericValidation(Request $request)
@@ -124,4 +128,16 @@ class CenterController extends Controller
         session(['center_id' => $request->get('center_id')]);
         return Redirect::back();
     }
+
+	public function seeEmptySpace()
+	{
+		$center = Center::findOrFail(session('center_id'));
+		$storesLocations = array();
+		foreach ($center->stores as $store) {
+			$storesLocations[$store->name] = $store->getPalletPositions(true);
+		}
+
+		return view('pages.centers.pallets_detail', ['title' => trans('pages/center.emptySpaceTitle',['Center' => $center->name]),
+		                                             'icon' => $this->icon, 'storesLocations' => $storesLocations]);
+	}
 }

@@ -11,6 +11,7 @@ return [
     'centerDataTitle'    => 'Datos del centro',
     'newTitle'           => 'Nuevo centro',
     'detailsTitle'       => 'Centro :Center (:Municipality - :Island)',
+	'emptySpaceTitle'    => 'Huecos libres del centro :Center',
 
     // Selects
     'selectMunicipality' => 'Selecciona un municipio ...',

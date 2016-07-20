@@ -32,5 +32,9 @@
     "jquery.uniform": "uniform#^2.2.2",
     "pick-a-color": "^1.2.3",
     "font-awesome": "^4.6.3"
+  },
+  "resolutions": {
+    "jquery": "~2.2.3",
+    "bootstrap": ">= 3.1.0"
   }
 }

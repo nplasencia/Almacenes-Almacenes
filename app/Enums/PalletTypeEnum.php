@@ -5,11 +5,10 @@ namespace App\Enums;
 use Artisaninweb\Enum\Enum;
 
 /**
- * @method static PaletTypeEnum ENUM()
+ * @method static PalletTypeEnum ENUM()
  */
-class PaletTypeEnum extends Enum {
+class PalletTypeEnum extends Enum {
 
     const EUROPEO   = 0.8;
     const AMERICANO = 1;
-
 }

@@ -7,7 +7,13 @@ return [
     'rows'               => 'Filas',
     'columns'            => 'Columnas',
     'longitude'          => 'Fondo (m)',
-    'emptySpaces'        => 'Huecos libres',
+    'totalSpace'         => 'Huecos totales',
+    'usedSpace'          => 'Huecos usados',
+    'emptySpace'         => 'Huecos libres',
+
+    // Tooltips
+    'seeUsedSpace'       => 'Ver huecos usados',
+    'seeEmptySpace'      => 'Ver huecos libres',
 
     'newTitle'           => 'Nuevo almacén',
     'detailsTitle'       => 'Almacén :Store',

@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'], function() {
 Route::group(['middleware' => 'auth'], function() {
     Route::get ('ajax/centers', 'CenterController@ajaxResume')->name('center.ajaxResume');
     Route::get ('ajax/stores', 'StoreController@ajaxResume')->name('store.ajaxResume');
+	Route::get ('ajax/articles', 'PalletArticleController@ajaxResume')->name('palletArticle.ajaxResume');
 });
 
 // Centers
@@ -55,6 +56,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('centerDelete/{id}', 'CenterController@delete')->name('center.delete');
     Route::delete('centerDelete/{id}', 'CenterController@delete')->name('center.delete');
 
+	Route::get ('centerEmptySpace', 'CenterController@seeEmptySpace')->name('center.emptySpace');
+
 });
 
 // Stores
@@ -71,4 +74,13 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('storeDelete/{id}', 'StoreController@delete')->name('store.delete');
     Route::delete('storeDelete/{id}', 'StoreController@delete')->name('store.delete');
 
+    Route::get ('store/{id}/usedSpace', 'StoreController@seeUsedSpace')->name('store.usedSpace');
+    Route::get ('store/{id}/emptySpace', 'StoreController@seeEmptySpace')->name('store.emptySpace');
+
+});
+
+// PalletArticles
+Route::group(['middleware' => 'auth'], function() {
+
+	Route::get('articles', 'PalletArticleController@resume')->name('palletArticle.resume');
 });

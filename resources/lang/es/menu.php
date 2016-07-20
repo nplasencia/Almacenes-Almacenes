@@ -13,8 +13,9 @@ return [
     |
     */
 
-    'dashboard'    => 'Cuadro de mandos',
-    'centers'      => 'Centros',
-    'stores'       => 'Almacenes',
-    'user_profile' => 'Configuración cuenta',
+    'dashboard'     => 'Cuadro de mandos',
+    'centers'       => 'Centros',
+    'stores'        => 'Almacenes',
+	'palletArticle' => 'Mercancía',
+    'user_profile'  => 'Configuración cuenta',
 ];

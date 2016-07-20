@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\Store;
 use App\Commons\StoreContract;
+use App\Repositories\PalletRepository;
 use App\Repositories\StoreRepository;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\Datatables\Datatables;
@@ -19,10 +20,12 @@ class StoreController extends Controller
     protected $titleNew    = 'pages/store.newTitle';
 
     protected $storeRepository;
+    protected $palletRepository;
 
-    public function __construct(StoreRepository $storeRepository)
+    public function __construct(StoreRepository $storeRepository, PalletRepository $palletRepository)
     {
         $this->storeRepository = $storeRepository;
+        $this->palletRepository = $palletRepository;
     }
 
     protected function genericValidation(Request $request)
@@ -53,8 +56,18 @@ class StoreController extends Controller
     public function ajaxResume()
     {
         return Datatables::of($this->storeRepository->getAllByCenter(session('center_id')))
+            ->addColumn('totalSpace', function(Store $store){
+                return $store->totalSpace();
+            })
+            ->addColumn('usedSpace', function(Store $store){
+                return '<a href="'.route('store.usedSpace', $store->id).'" data-toggle="tooltip" data-original-title="'.trans('pages/store.seeUsedSpace').'" data-placement="bottom">
+                            '.$store->usedSpace().'
+                       </a>';
+            })
             ->addColumn('emptySpace', function(Store $store){
-                return $store->emptySpace();
+                return '<a href="'.route('store.emptySpace', $store->id).'" data-toggle="tooltip" data-original-title="'.trans('pages/store.seeEmptySpace').'" data-placement="bottom">
+                            '.$store->emptySpace().'
+                       </a>';
             })
             ->addColumn('actions', function (Store $store) {
                 return $this->getTableActionButtons($store);
@@ -85,15 +98,15 @@ class StoreController extends Controller
         $this->genericValidation($request);
         try {
             $store = $this->storeRepository->create([
-                'name'      => $request->get('name'),
+                'name'      => $request->get(StoreContract::NAME),
                 'center_id' => session('center_id'),
-                'rows'      => $request->get('rows'),
-                'columns'   => $request->get('columns'),
-                'longitude' => $request->get('longitude')
+                'rows'      => $request->get(StoreContract::ROWS),
+                'columns'   => $request->get(StoreContract::COLUMNS),
+                'longitude' => $request->get(StoreContract::LONGITUDE)
             ]);
             session()->flash('success', trans('pages/store.store_success',['Name' => $store->name]));
         } catch (\PDOException $exception) {
-            session()->flash('info', trans('pages/store.store_exists', ['Name' => $request->get('name')]));
+            session()->flash('info', trans('pages/store.store_exists', ['Name' => $request->get(StoreContract::NAME)]));
         } finally {
             return Redirect::route('store.resume');
         }
@@ -112,5 +125,13 @@ class StoreController extends Controller
         $store = $this->storeRepository->deleteById($id);
         session()->flash('success', trans('pages/store.delete_success',['Name' => $store->name]));
         return $this->resume();
+    }
+
+    public function seeUsedSpace($id)
+    {
+		$store = Store::findOrFail($id);
+	    $locations = $store->getPalletPositions();
+
+	    return view('pages.stores.pallets_detail', ['title' => "Detalle del almacén {$store->name}", 'icon' => $this->icon, 'positions' => $locations]);
     }
 }

@@ -15,6 +15,9 @@
             </a>
         </header>
         <div class="topnav">
+
+            @include('partials.center_emptySpace')
+
             <div class="btn-group">
                 <a data-placement="bottom" data-original-title="@lang('general.fullScreen')" data-toggle="tooltip" class="btn btn-default btn-sm" id="toggleFullScreen">
                     <i class="glyphicon glyphicon-fullscreen"></i>
@@ -44,8 +47,8 @@
                 </a>
                 <a data-placement="bottom" data-original-title="@lang('general.showHideMenu')" data-toggle="tooltip" class="btn btn-default btn-sm toggle-right"> <span class="glyphicon glyphicon-comment"></span>  </a>
             </div>
+
         </div>
-        @include('partials.center_emptySpace')
 
         @if(Auth::user()->role == 'SuperAdmin')
             @include('partials.centers_select')
