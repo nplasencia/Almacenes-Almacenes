@@ -46,7 +46,7 @@
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('store.emptySpace', $store->id) }}" data-toggle="tooltip" data-original-title="@lang('pages/store.seeEmptySpace')" data-placement="bottom">
+                                    <a href="{{ route('store.usedSpace', $store->id) }}" data-toggle="tooltip" data-original-title="@lang('pages/store.seeEmptySpace')" data-placement="bottom">
                                         {{ $store->emptySpace() }}
                                     </a>
                                 </td>

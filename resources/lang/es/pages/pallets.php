@@ -2,7 +2,7 @@
 
 return [
 
-    'position'   => 'Posición',
+    'position'   => 'Ubicación',
     'totalSpace' => 'Espacio total',
     'usedSpace'  => 'Espacio usado',
 	'emptySpace' => 'Espacio libre',

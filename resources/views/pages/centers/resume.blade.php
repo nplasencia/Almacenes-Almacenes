@@ -27,7 +27,7 @@
                             <th class="text-center">@lang('pages/center.postalCode')</th>
                             <th class="text-center">@lang('pages/center.municipality')</th>
                             <th class="text-center">@lang('pages/center.island')</th>
-                            <th class="text-center">@lang('pages/store.emptySpaces')</th>
+                            <th class="text-center">@lang('pages/center.emptySpaces')</th>
                             <th style="min-width: 62px;">&nbsp;</th>
                         </tr>
                         </thead>

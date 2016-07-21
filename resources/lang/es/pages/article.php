@@ -2,18 +2,13 @@
 
 return [
 
-    'newButton'          => 'Nuevo centro',
-    'name'               => 'Nombre',
-    'address'            => 'Dirección',
-    'municipality'       => 'Municipio',
-    'postalCode'         => 'Código postal',
-    'island'             => 'Isla',
-	'emptySpaces'        => 'Huecos libres',
-    'centerDataTitle'    => 'Datos del centro',
-    'newTitle'           => 'Nuevo centro',
-    'detailsTitle'       => 'Centro :Center (:Municipality - :Island)',
-    'dataTitle'          => 'Datos del centro',
-	'emptySpaceTitle'    => 'Huecos libres del centro :Center',
+    'newButton'          => 'Nueva mercancía',
+    'name'               => 'Descripción',
+    'group'              => 'Grupo',
+    'subgroup'           => 'Subgrupo',
+    'pallets'            => 'Número de pallets',
+    'newTitle'           => 'Nueva entrada de mercancía',
+    'detailsTitle'       => 'Mercancía :Article',
 
     // Selects
     'selectMunicipality' => 'Selecciona un municipio ...',
@@ -22,7 +17,7 @@ return [
     'store_success'      => 'El centro :Name del municipio de :Municipality ha sido creado exitosamente',
     'update_success'     => 'El centro :Name del municipio de :Municipality ha sido actualizado exitosamente',
     'delete_success'     => 'El centro :Name del municipio de :Municipality ha sido eliminado exitosamente',
-    
+
     // Problem messages
     'store_exists'       => 'El centro :Name ya existe para este municipio.',
     'search_no_found'    => 'No se han encontrado centros que sigan este criterio de búsqueda',

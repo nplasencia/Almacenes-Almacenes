@@ -8,7 +8,7 @@ class PalletArticleContract extends AppContract {
 	    PALLET_ID   = 'pallet_id',
 	    ARTICLE_ID  = 'article_id',
 	    LOT         = 'lot',
-        NUMBER      = 'name',
+        NUMBER      = 'number',
 	    WEIGHT      = 'weight',
         EXPIRATION  = 'expiration';
 }

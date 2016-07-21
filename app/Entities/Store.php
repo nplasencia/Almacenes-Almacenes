@@ -7,6 +7,7 @@ use App\Commons\StoreContract;
 use App\Enums\PalletTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mockery\CountValidator\Exception;
 
 class Store extends Model
 {
@@ -49,12 +50,12 @@ class Store extends Model
         return $this->totalSpace() - $this->usedSpace();
     }
     
-    public function getAllPositions()
+    public function getAllLocations()
     {
 	    $positions = array();
 	    for ( $i=0; $i < $this->rows; $i++ ) {
 		    for ( $j=0; $j < $this->columns; $j++ ) {
-			    $location = "0$i-0$j";
+			    $location = "$i-$j";
 			    $positions[$location] = ['total' => $this->cellSpace(), 'used' => 0, 'empty' => $this->cellSpace()];
 		    }
 	    }
@@ -64,16 +65,16 @@ class Store extends Model
 	public function getPalletPositions($deleteEmpty = false)
 	{
 		$pallets = $this->pallets;
-		$positions = $this->getAllPositions();
-		foreach ($pallets as $pallet) {
-			$positions[$pallet->location]['used']++;
-			$positions[$pallet->location]['empty']--;
+		$locations = $this->getAllLocations();
 
-			if ($deleteEmpty && $positions[$pallet->location]['empty'] == 0) {
-				unset($positions[$pallet->location]);
+		foreach ( $pallets as $pallet ) {
+			$locations[ $pallet->location ]['used'] ++;
+			$locations[ $pallet->location ]['empty'] --;
+			if ( $deleteEmpty && $locations[ $pallet->location ]['empty'] == 0 ) {
+				unset( $locations[ $pallet->location ] );
 			}
 		}
-		return $positions;
+		return $locations;
 	}
 
 	public function getPositionByLocation($location)

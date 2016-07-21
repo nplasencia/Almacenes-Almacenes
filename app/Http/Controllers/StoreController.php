@@ -65,7 +65,7 @@ class StoreController extends Controller
                        </a>';
             })
             ->addColumn('emptySpace', function(Store $store){
-                return '<a href="'.route('store.emptySpace', $store->id).'" data-toggle="tooltip" data-original-title="'.trans('pages/store.seeEmptySpace').'" data-placement="bottom">
+                return '<a href="'.route('store.usedSpace', $store->id).'" data-toggle="tooltip" data-original-title="'.trans('pages/store.seeEmptySpace').'" data-placement="bottom">
                             '.$store->emptySpace().'
                        </a>';
             })

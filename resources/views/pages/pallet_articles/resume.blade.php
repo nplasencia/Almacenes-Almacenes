@@ -14,15 +14,15 @@
                         <thead>
                         <tr>
                             <th class="text-center">@lang('pages/article.name')</th>
-                            <th class="text-center">@lang('pages/article.subgroup')</th>
                             <th class="text-center">@lang('pages/article.group')</th>
-                            <th class="text-center">@lang('pages/pallet.name')</th>
+                            <th class="text-center">@lang('pages/article.subgroup')</th>
+                            <th class="text-center">@lang('pages/article.pallets')</th>
                             <th style="min-width: 62px;">&nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($articles as $article)
-                            <tr class="center">
+                            <tr data-id="{{ $article->id }}" class="center">
                                 <td class="text-center">{{ $article->name }}</td>
                                 <td class="text-center">{{ $article->groupName }}</td>
                                 <td class="text-center">{{ $article->subgroup }}</td>
@@ -30,13 +30,8 @@
 
                                 <td align="right" style="vertical-align: middle;">
                                     <div class="btn-group">
-                                        <a href="{{ route('article.details', $article->id) }}" data-toggle="tooltip" data-original-title="@lang('general.edit')" data-placement="bottom" class="btn btn-success btn-xs">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <a href="{{ route('article.delete', $article->id) }}" data-toggle="tooltip" data-original-title="@lang('general.remove')" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
-                                            <i class="fa fa-trash-o"></i>
+                                        <a href="{{ route('palletArticle.details', $article->id) }}" data-toggle="tooltip" data-original-title="@lang('general.info')" data-placement="bottom" class="btn btn-info btn-xs">
+                                            <i class="fa fa-info-circle"></i>
                                         </a>
                                     </div>
                                 </td>
@@ -62,7 +57,7 @@
             "fnDrawCallback": function() {
                 $('[data-toggle="tooltip"]').tooltip();
             },
-            columns: [
+        columns: [
                 { data: 'name', name: 'name'},
                 { data: 'groupName', name: 'groupName'},
                 { data: 'subgroup', name: 'subgroup'},

@@ -1,6 +1,8 @@
 $.extend( true, $.fn.dataTable.defaults, {
-    "pageLength": 25,
-
+    pageLength: 25,
+    search: {
+        caseInsensitive: true
+    },
     language: {
         processing:     "Procesando ...",
         search:         "Buscar &nbsp;:",

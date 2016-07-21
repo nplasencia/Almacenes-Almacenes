@@ -32,10 +32,10 @@
                             <tbody>
                             @foreach($locations as $location => $values)
                                 <tr data-id="{{ $location }}" class="center">
-                                    <td>{{ $location }}</td>
-                                    <td>{{ $values['total'] }}</td>
-                                    <td>{{ $values['used'] }}</td>
-                                    <td>{{ $values['empty'] }}</td>
+                                    <td class="text-center">{{ $location }}</td>
+                                    <td class="text-center">{{ $values['total'] }}</td>
+                                    <td class="text-center">{{ $values['used'] }}</td>
+                                    <td class="text-center">{{ $values['empty'] }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

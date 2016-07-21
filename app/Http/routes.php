@@ -83,4 +83,9 @@ Route::group(['middleware' => 'auth'], function() {
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('articles', 'PalletArticleController@resume')->name('palletArticle.resume');
+
+	Route::get ('article/{id}', 'PalletArticleController@details')->name('palletArticle.details');
+
+	Route::get ('articleDelete/{id}', 'PalletArticleController@delete')->name('palletArticle.delete');
+	Route::delete('articleDelete/{id}', 'PalletArticleController@delete')->name('palletArticle.delete');
 });

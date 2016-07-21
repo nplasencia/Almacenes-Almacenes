@@ -13,6 +13,7 @@ return [
     'save'             => 'Guardar',
     'update'           => 'Actualizar',
     'cancel'           => 'Cancelar',
+	'info'             => 'Información',
     'edit'             => 'Modificar',
     'remove'           => 'Eliminar',
     

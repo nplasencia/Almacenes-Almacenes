@@ -20,7 +20,7 @@ class PalletTableSeeder extends Seeder
 		    ->create()
 		    ->each(
 		    	function ($store) {
-	    	        $storeLocation = random_int(0, $store->rows).'-'.random_int(0, $store->columns);
+	    	        $storeLocation = random_int(0, $store->rows-1).'-'.random_int(0, $store->columns-1);
 		            $store->pallets()
 			            ->save(factory(Pallet::class)->make([
 			                PalletContract::LOCATION => $storeLocation,
