@@ -15,6 +15,7 @@ class Store extends Model
 
     protected $fillable = [StoreContract::CENTER_ID, StoreContract::NAME, StoreContract::ROWS, StoreContract::COLUMNS, StoreContract::LONGITUDE];
 
+	const PickingName = 'Picking';
     private $usedSpace = null;
 
     public function center()
@@ -47,7 +48,10 @@ class Store extends Model
 
     public function emptySpace()
     {
-        return $this->totalSpace() - $this->usedSpace();
+    	if ($this->name != 'Picking') {
+		    return $this->totalSpace() - $this->usedSpace();
+	    }
+	    return 0;
     }
     
     public function getAllLocations()
@@ -77,6 +81,7 @@ class Store extends Model
 		return $locations;
 	}
 
+	//TODO: Creo que no se ha tenido en cuenta el espacio máximo de la celda
 	public function getPositionByLocation($location)
 	{
 		$position = 1;

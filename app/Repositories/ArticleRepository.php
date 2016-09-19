@@ -62,7 +62,7 @@ class ArticleRepository extends BaseRepository
 		         ->join(StoreContract::TABLE_NAME, 'stores.id', '=', 'pallets.store_id')
 				 ->where(StoreContract::CENTER_ID, $center_id)
 				 ->where('articles.id', $id)
-		         ->select(DB::raw('pallet_articles.lot as lot, pallet_articles.number as number, (pallet_articles.number * pallet_articles.weight) as totalWeight,
+		         ->select(DB::raw('pallet_articles.id as id, pallet_articles.lot as lot, pallet_articles.number as number, (pallet_articles.number * pallet_articles.weight) as totalWeight,
 		                           stores.name as storeName, pallets.location as location, pallets.position as position, pallet_articles.expiration as expiration,
 		                           pallet_articles.created_at as created_at'))->get();
 	}

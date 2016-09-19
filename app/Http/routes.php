@@ -79,6 +79,17 @@ Route::group(['middleware' => 'auth'], function() {
 
 });
 
+// StorePallets
+Route::group(['middleware' => 'auth'], function() {
+
+	Route::get( 'storePallets/{id}/{location}', 'PalletController@resume' )->name( 'storePallets.resume' );
+
+	Route::post('palletTransfer/{id}', 'PalletController@transfer')->name('storePallets.transfer');
+
+	//AJAX
+	Route::post('palletLocations/{id}', 'PalletController@getPalletLocationsByStore')->name('storePallet.palletLocations');
+});
+
 // PalletArticles
 Route::group(['middleware' => 'auth'], function() {
 
@@ -86,6 +97,12 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get ('article/{id}', 'PalletArticleController@details')->name('palletArticle.details');
 
+	Route::post('articleTransfer/{id}', 'PalletArticleController@articleTransfer')->name('palletArticle.transfer');
+
 	Route::get ('articleDelete/{id}', 'PalletArticleController@delete')->name('palletArticle.delete');
 	Route::delete('articleDelete/{id}', 'PalletArticleController@delete')->name('palletArticle.delete');
+
+	//AJAX
+	Route::get('articleLocations/{id}', 'PalletArticleController@getArticleLocationsByStore')->name('palletArticle.articleLocations');
+	Route::post('articleLocations/{id}', 'PalletArticleController@getArticleLocationsByStore')->name('palletArticle.articleLocations');
 });

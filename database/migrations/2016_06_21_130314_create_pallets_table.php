@@ -18,9 +18,9 @@ class CreatePalletsTable extends Migration
         Schema::create(PalletContract::TABLE_NAME, function (Blueprint $table) {
             $table->increments(PalletContract::ID);
             $table->unsignedInteger(PalletContract::STORE_ID);
-            $table->unsignedInteger(PalletContract::PALLET_TYPE_ID);
-            $table->string(PalletContract::LOCATION);
-            $table->unsignedSmallInteger(PalletContract::POSITION);
+            $table->unsignedInteger(PalletContract::PALLET_TYPE_ID)->nullable();
+            $table->string(PalletContract::LOCATION)->nullable();
+            $table->unsignedSmallInteger(PalletContract::POSITION)->nullable();
             $table->softDeletes();
             $table->timestamps();
 

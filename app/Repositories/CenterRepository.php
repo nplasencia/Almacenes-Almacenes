@@ -7,7 +7,7 @@ use App\Entities\Center;
 
 class CenterRepository extends BaseRepository
 {
-    
+
     public function getEntity()
     {
         return new Center();
@@ -21,6 +21,11 @@ class CenterRepository extends BaseRepository
     public function getAllWithoutMunicipalities()
     {
         return $this->newQuery()->orderBy(CenterContract::NAME, 'ASC')->get();
+    }
+
+    public function getById($id)
+    {
+    	return $this->newQuery()->where(CenterContract::ID, $id)->with('stores')->orderBy(CenterContract::NAME, 'ASC')->get();
     }
 
     public function getAllPaginated($numberOfElements)

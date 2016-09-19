@@ -28,10 +28,23 @@ class StoreRepository extends BaseRepository
         return $this->newQuery()->where(StoreContract::CENTER_ID, $center_id)->orderBy(StoreContract::NAME, 'ASC')->get();
     }
 
-    public function getAllPaginatedByCenter($center_id, $numberOfElements)
+
+	public function getAllPaginatedByCenter($center_id, $numberOfElements)
+	{
+		return $this->newQuery()->where(StoreContract::CENTER_ID, $center_id)->orderBy(StoreContract::NAME, 'ASC')->paginate($numberOfElements);
+	}
+
+    public function getAllWithoutPickingByCenter($center_id)
     {
-        return $this->newQuery()->where(StoreContract::CENTER_ID, $center_id)->orderBy(StoreContract::NAME, 'ASC')->paginate($numberOfElements);
+    	return $this->newQuery()->where(StoreContract::CENTER_ID, $center_id)->where(StoreContract::NAME, '<>', Store::PickingName)
+		    ->orderBy(StoreContract::NAME, 'ASC')->get();
     }
+
+	public function getAllWithoutPickingByCenterPaginated($center_id, $numberOfElements)
+	{
+		return $this->newQuery()->where(StoreContract::CENTER_ID, $center_id)->where(StoreContract::NAME, '<>', Store::PickingName)
+		            ->orderBy(StoreContract::NAME, 'ASC')->paginate($numberOfElements);
+	}
 
     public function update($id, array $data)
     {
@@ -42,6 +55,11 @@ class StoreRepository extends BaseRepository
         $store->longitude = $data[StoreContract::LONGITUDE];
         $store->update();
         return $store;
+    }
+
+    public function getPickingStoreByCenter($center_id)
+    {
+    	return $this->newQuery()->where(StoreContract::NAME, Store::PickingName)->where(StoreContract::CENTER_ID, $center_id)->with('pallets')->first();
     }
     
 }

@@ -22,7 +22,11 @@
                         <tbody>
                         @foreach($positions as $position => $values)
                             <tr data-id="{{ $position }}" class="center">
-                                <td class="text-center">{{ $position }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('storePallets.resume', [$store->id, $position]) }}">
+                                        {{ $position }}
+                                    </a>
+                                </td>
                                 <td class="text-center">{{ $values['total'] }}</td>
                                 <td class="text-center">{{ $values['used'] }}</td>
                                 <td class="text-center">{{ $values['empty'] }}</td>

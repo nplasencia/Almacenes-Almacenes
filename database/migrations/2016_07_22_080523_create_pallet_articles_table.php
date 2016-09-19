@@ -22,7 +22,6 @@ class CreatePalletArticlesTable extends Migration
 	        $table->integer(PalletArticleContract::NUMBER);
 	        $table->double(PalletArticleContract::WEIGHT);
 	        $table->date(PalletArticleContract::EXPIRATION);
-	        $table->softDeletes();
             $table->timestamps();
         });
     }

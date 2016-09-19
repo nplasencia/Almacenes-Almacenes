@@ -16,17 +16,13 @@ class PalletTableSeeder extends Seeder
      */
     public function run()
     {
-	    factory(Store::class, 500)
-		    ->create()
-		    ->each(
-		    	function ($store) {
-	    	        $storeLocation = random_int(0, $store->rows-1).'-'.random_int(0, $store->columns-1);
-		            $store->pallets()
-			            ->save(factory(Pallet::class)->make([
-			                PalletContract::LOCATION => $storeLocation,
-			                PalletContract::POSITION => $store->getPositionByLocation($storeLocation),
-		                ]));
-	            }
-            );
+	    factory(Store::class, 500)->create()->each(function ($store) {
+            $storeLocation = random_int(0, $store->rows-1).'-'.random_int(0, $store->columns-1);
+            $store->pallets()->save(factory(Pallet::class)->make([
+	                PalletContract::LOCATION => $storeLocation,
+	                PalletContract::POSITION => $store->getPositionByLocation($storeLocation),
+                ]));
+            }
+        );
     }
 }

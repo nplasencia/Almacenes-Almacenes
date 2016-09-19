@@ -55,7 +55,7 @@ class StoreController extends Controller
 
     public function ajaxResume()
     {
-        return Datatables::of($this->storeRepository->getAllByCenter(session('center_id')))
+        return Datatables::of($this->storeRepository->getAllWithoutPickingByCenter(session('center_id')))
             ->addColumn('totalSpace', function(Store $store){
                 return $store->totalSpace();
             })
@@ -77,7 +77,7 @@ class StoreController extends Controller
 
     public function resume()
     {
-        $stores = $this->storeRepository->getAllPaginatedByCenter(session('center_id'), $this->defaultPagination);
+        $stores = $this->storeRepository->getAllWithoutPickingByCenter(session('center_id'), $this->defaultPagination);
         return view('pages.stores.resume', ['title' => trans($this->titleResume), 'icon' => $this->icon, 'stores' => $stores]);
     }
 
@@ -127,11 +127,25 @@ class StoreController extends Controller
         return $this->resume();
     }
 
+	public function seeEmptySpace($id)
+	{
+		$store = $this->storeRepository->findOrFail($id);
+		$locations = $store->getPalletPositions();
+
+		return view('pages.stores.pallets_detail', ['title' => "Detalle del almacén {$store->name}", 'icon' => $this->icon, 'positions' => $locations, 'store' => $store]);
+	}
+
     public function seeUsedSpace($id)
     {
-		$store = Store::findOrFail($id);
+		$store = $this->storeRepository->findOrFail($id);
 	    $locations = $store->getPalletPositions();
 
-	    return view('pages.stores.pallets_detail', ['title' => "Detalle del almacén {$store->name}", 'icon' => $this->icon, 'positions' => $locations]);
+	    foreach ($locations as $location => $values) {
+	    	if ($values['used'] == 0) {
+	    		unset($locations[ $location ]);
+		    }
+	    }
+
+	    return view('pages.stores.pallets_detail', ['title' => "Detalle del almacén {$store->name}", 'icon' => $this->icon, 'positions' => $locations, 'store' => $store]);
     }
 }

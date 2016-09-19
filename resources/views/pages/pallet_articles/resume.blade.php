@@ -29,11 +29,9 @@
                                 <td class="text-center">{{ $article->sum }}</td>
 
                                 <td align="right" style="vertical-align: middle;">
-                                    <div class="btn-group">
-                                        <a href="{{ route('palletArticle.details', $article->id) }}" data-toggle="tooltip" data-original-title="@lang('general.info')" data-placement="bottom" class="btn btn-info btn-xs">
-                                            <i class="fa fa-info-circle"></i>
-                                        </a>
-                                    </div>
+                                    <a href="{{ route('palletArticle.details', $article->id) }}" data-toggle="tooltip" data-original-title="@lang('general.info')" data-placement="bottom" class="btn btn-info btn-xs">
+                                        <i class="fa fa-info-circle"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

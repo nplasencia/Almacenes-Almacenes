@@ -41,16 +41,12 @@
                                 <td>{{ $center->municipality->island->name }}</td>
                                 <td class="text-center">{{ $center->emptySpace() }}</td>
                                 <td align="right" style="vertical-align: middle;">
-                                    <div class="btn-group">
-                                        <a href="{{ route('center.details', $center->id) }}" data-toggle="tooltip" data-original-title="@lang('general.edit')" data-placement="bottom" class="btn btn-success btn-xs">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <a href="{{ route('center.delete', $center->id) }}" data-toggle="tooltip" data-original-title="@lang('general.remove')" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </div>
+                                    <a href="{{ route('center.details', $center->id) }}" data-toggle="tooltip" data-original-title="@lang('general.edit')" data-placement="bottom" class="btn btn-success btn-xs">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="{{ route('center.delete', $center->id) }}" data-toggle="tooltip" data-original-title="@lang('general.remove')" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

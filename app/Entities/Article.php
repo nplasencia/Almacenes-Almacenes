@@ -21,8 +21,17 @@ class Article extends Model
 
 	public function pallets()
 	{
-		return $this->belongsToMany(Pallet::class, PalletArticleContract::TABLE_NAME)
-			->withPivot(PalletArticleContract::LOT, PalletArticleContract::NUMBER, PalletArticleContract::WEIGHT, PalletArticleContract::EXPIRATION);;
+		return $this->belongsToMany(Pallet::class, PalletArticleContract::TABLE_NAME)->withTimestamps()
+			->withPivot(PalletArticleContract::ID, PalletArticleContract::LOT, PalletArticleContract::NUMBER, PalletArticleContract::WEIGHT, PalletArticleContract::EXPIRATION);
 	}
-    
+
+	public function getGroupNameAttribute()
+	{
+		return $this->subgroup->group->name;
+	}
+
+	public function getSubgroupNameAttribute()
+	{
+		return $this->subgroup->name;
+	}
 }

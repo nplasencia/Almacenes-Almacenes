@@ -16,6 +16,9 @@ return [
 	'info'             => 'Información',
     'edit'             => 'Modificar',
     'remove'           => 'Eliminar',
+	'transfer'         => 'Traspasar',
+	'picking'          => 'Salida (Picking)',
+	'palletType'       => 'Tipo de palé',
     
     // Menú superior
     'centerSelect'     => 'Centro de trabajo:',

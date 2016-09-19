@@ -17,7 +17,7 @@
 
     <div id="content">
         <div class="outer">
-            <div class="inner bg-light lter">
+            <div class="inner bg-light lter" style="min-height: 316px;">
                 <div class="row">
                     <div class="col-lg-12">
 
