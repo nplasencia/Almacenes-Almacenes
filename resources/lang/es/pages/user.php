@@ -2,15 +2,25 @@
 
 return [
 
-    'title'        => 'Datos de usuario',
-	'resume_title' => 'Usuarios',
-    'image'        => 'Imagen (Sólo .jpg/.jpeg)',
+    'title'        => 'Usuarios',
+	'data_title'   => 'Datos del usuario',
     'name'         => 'Nombre',
     'surname'      => 'Apellidos',
+	'role'         => 'Tipo de usuario',
     'telephone'    => 'Teléfono',
     'email'        => 'E-mail',
+	'new_button'   => 'Nuevo usuario',
 
-    // Success messages
-    'update_success' => 'Datos modificados con éxito',
+	'select_role'   => 'Selecciona el tipo de usuario',
+    'select_center' => 'Selecciona el centro del usuario',
+
+	// Success messages
+    'store_success'      => 'El usuario :Name ha sido creado exitosamente',
+    'update_success'     => 'El usuario :Name ha sido actualizado exitosamente',
+    'delete_success'     => 'El usuario :Name ha sido eliminado exitosamente',
+
+	// Problem messages
+    'store_exists'       => 'El usuario :Name ya existe',
+    'search_no_found'    => 'No se han encontrado centros que sigan este criterio de búsqueda',
 
 ];

@@ -13,14 +13,17 @@ return [
     |
     */
 
-    'page_title'  => 'Acceso',
-    'login_title' => 'Introduce tu usuario y contraseña',
-    'remember_me' => 'Recuérdame',
-    'access_link' => 'Acceso',
+    'page_title'   => 'Acceso',
+    'login_title'  => 'Introduce tu usuario y contraseña',
+    'remember_me'  => 'Recuérdame',
+    'access_link'  => 'Acceso',
     'forgotPassword_link' => 'Recuperar contraseña',
-    'valid_email' => 'Introduce un email válido',
+    'valid_email'  => 'Introduce un email válido',
     
     'reset_page_title' => 'Recuperar contraseña',
-    'reset_title' => 'Introduce tu email y tu nueva contraseña',
+    'reset_title'  => 'Introduce tu email y tu nueva contraseña',
     'reset_button' => 'Guardar',
+
+	'failed'       => 'Estas credenciales no coinciden con nuestros registros',
+	'throttle'     => 'Demasiados intentos erróneos. Por favor, vuelva a intentarlo en :seconds segundos.',
 ];

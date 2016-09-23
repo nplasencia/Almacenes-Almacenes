@@ -20,14 +20,19 @@ class ArticleRepository extends BaseRepository
         return new Article();
     }
 
+	private function generateComplexSql()
+	{
+		return DB::table(ArticleContract::TABLE_NAME)
+		         ->join(ArticleSubGroupContract::TABLE_NAME, 'articles.subgroup_id', '=', 'article_subgroups.id')
+		         ->join(ArticleGroupContract::TABLE_NAME, 'article_subgroups.group_id', '=', 'article_groups.id')
+		         ->join(PalletArticleContract::TABLE_NAME, 'articles.id', '=', 'pallet_articles.article_id')
+		         ->join(PalletContract::TABLE_NAME, 'pallets.id', '=', 'pallet_articles.pallet_id')
+		         ->join(StoreContract::TABLE_NAME, 'stores.id', '=', 'pallets.store_id');
+	}
+
     private function getAll()
     {
-    	return DB::table(ArticleContract::TABLE_NAME)
-	             ->join(ArticleSubGroupContract::TABLE_NAME, 'articles.subgroup_id', '=', 'article_subgroups.id')
-	             ->join(ArticleGroupContract::TABLE_NAME, 'article_subgroups.group_id', '=', 'article_groups.id')
-	             ->join(PalletArticleContract::TABLE_NAME, 'articles.id', '=', 'pallet_articles.article_id')
-	             ->join(PalletContract::TABLE_NAME, 'pallets.id', '=', 'pallet_articles.pallet_id')
-	             ->join(StoreContract::TABLE_NAME, 'stores.id', '=', 'pallets.store_id')
+    	return $this->generateComplexSql()
 	             ->select(DB::raw('articles.id, articles.name, article_subgroups.name as subgroup, article_groups.name as groupName, count(pallets.id) as sum'))
 	             ->groupBy('articles.id','articles.name', 'subgroup', 'groupName');
     }
@@ -54,17 +59,32 @@ class ArticleRepository extends BaseRepository
 
 	public function findComplexById($id, $center_id)
 	{
-		return DB::table(ArticleContract::TABLE_NAME)
-		         ->join(ArticleSubGroupContract::TABLE_NAME, 'articles.subgroup_id', '=', 'article_subgroups.id')
-		         ->join(ArticleGroupContract::TABLE_NAME, 'article_subgroups.group_id', '=', 'article_groups.id')
-		         ->join(PalletArticleContract::TABLE_NAME, 'articles.id', '=', 'pallet_articles.article_id')
-		         ->join(PalletContract::TABLE_NAME, 'pallets.id', '=', 'pallet_articles.pallet_id')
-		         ->join(StoreContract::TABLE_NAME, 'stores.id', '=', 'pallets.store_id')
+		return $this->generateComplexSql()
 				 ->where(StoreContract::CENTER_ID, $center_id)
 				 ->where('articles.id', $id)
 		         ->select(DB::raw('pallet_articles.id as id, pallet_articles.lot as lot, pallet_articles.number as number, (pallet_articles.number * pallet_articles.weight) as totalWeight,
 		                           stores.name as storeName, pallets.location as location, pallets.position as position, pallet_articles.expiration as expiration,
 		                           pallet_articles.created_at as created_at'))->get();
+	}
+
+	public function getNextToExpire($center_id, $limit)
+	{
+		return $this->generateComplexSql()
+		         ->where(StoreContract::CENTER_ID, $center_id)
+		         ->orderBy(PalletArticleContract::EXPIRATION, 'ASC')
+		         ->select(DB::raw('pallet_articles.id as id, articles.name as name, pallet_articles.lot as lot, pallet_articles.number as number, (pallet_articles.number * pallet_articles.weight) as totalWeight,
+		                           stores.name as storeName, pallets.location as location, pallets.position as position, pallet_articles.expiration as expiration,
+		                           pallet_articles.created_at as created_at'))->limit($limit)->get();
+	}
+
+	public function getLastInserted($center_id, $limit)
+	{
+		return $this->generateComplexSql()
+		            ->where(StoreContract::CENTER_ID, $center_id)
+		            ->orderBy('pallet_articles.created_at', 'DESC')
+		            ->select(DB::raw('pallet_articles.id as id, articles.name as name, pallet_articles.lot as lot, pallet_articles.number as number, (pallet_articles.number * pallet_articles.weight) as totalWeight,
+		                           stores.name as storeName, pallets.location as location, pallets.position as position, pallet_articles.expiration as expiration,
+		                           pallet_articles.created_at as created_at'))->limit($limit)->get();
 	}
     
 }

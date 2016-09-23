@@ -2,30 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Store;
 use App\Commons\StoreContract;
+use App\Entities\Store;
 use App\Repositories\PalletRepository;
 use App\Repositories\StoreRepository;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\Datatables\Datatables;
-
-use Illuminate\Http\Request;
-use App\Http\Requests;
 
 class StoreController extends Controller
 {
     protected $defaultPagination = 25;
-    protected $icon        = 'fa fa-th';
-    protected $titleResume = 'menu.stores';
-    protected $titleNew    = 'pages/store.newTitle';
+    protected $icon              = 'fa fa-th';
+    protected $titleResume       = 'menu.stores';
+    protected $titleNew          = 'pages/store.newTitle';
 
-    protected $storeRepository;
-    protected $palletRepository;
+	protected $palletRepository;
+	protected $storeRepository;
 
-    public function __construct(StoreRepository $storeRepository, PalletRepository $palletRepository)
+    public function __construct(PalletRepository $palletRepository, StoreRepository $storeRepository)
     {
+	    $this->palletRepository = $palletRepository;
         $this->storeRepository = $storeRepository;
-        $this->palletRepository = $palletRepository;
     }
 
     protected function genericValidation(Request $request)
@@ -55,24 +54,30 @@ class StoreController extends Controller
 
     public function ajaxResume()
     {
-        return Datatables::of($this->storeRepository->getAllWithoutPickingByCenter(session('center_id')))
-            ->addColumn('totalSpace', function(Store $store){
-                return $store->totalSpace();
-            })
-            ->addColumn('usedSpace', function(Store $store){
-                return '<a href="'.route('store.usedSpace', $store->id).'" data-toggle="tooltip" data-original-title="'.trans('pages/store.seeUsedSpace').'" data-placement="bottom">
-                            '.$store->usedSpace().'
-                       </a>';
-            })
-            ->addColumn('emptySpace', function(Store $store){
-                return '<a href="'.route('store.usedSpace', $store->id).'" data-toggle="tooltip" data-original-title="'.trans('pages/store.seeEmptySpace').'" data-placement="bottom">
-                            '.$store->emptySpace().'
-                       </a>';
-            })
-            ->addColumn('actions', function (Store $store) {
-                return $this->getTableActionButtons($store);
-            })
-            ->make(true);
+	    $user = Auth::user();
+
+        $dataTables = Datatables::of($this->storeRepository->getAllWithoutPickingByCenter(session('center_id')))
+	            ->addColumn('totalSpace', function(Store $store){
+	                return $store->totalSpace();
+	            })
+	            ->addColumn('usedSpace', function(Store $store){
+	                return '<a href="'.route('store.usedSpace', $store->id).'" data-toggle="tooltip" data-original-title="'.trans('pages/store.seeUsedSpace').'" data-placement="bottom">
+	                            '.$store->usedSpace().'
+	                       </a>';
+	            })
+	            ->addColumn('emptySpace', function(Store $store){
+	                return '<a href="'.route('store.usedSpace', $store->id).'" data-toggle="tooltip" data-original-title="'.trans('pages/store.seeEmptySpace').'" data-placement="bottom">
+	                            '.$store->emptySpace().'
+	                       </a>';
+	            });
+
+	    if ($user->isAdmin()) {
+		    $dataTables->addColumn( 'actions', function ( Store $store ) {
+			    return $this->getTableActionButtons( $store );
+		    } );
+	    }
+
+	    return $dataTables->make(true);
     }
 
     public function resume()

@@ -103,7 +103,7 @@
 
             $('#storeSelect').change(function(e) {
                 e.preventDefault();
-                var form = $('#formArticleLocations');
+                var form = $('#formLocations');
                 var locationSelect = $('#locationSelect');
 
                 var action = form.attr('action').replace(':store_id', $(this).val());

@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
-
+use App\Commons\Roles;
 use App\Commons\UserContract;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateUsersTable extends Migration
 {
@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string(UserContract::SURNAME);
             $table->string(UserContract::EMAIL)->unique();
             $table->string(UserContract::TELEPHONE);
-            $table->enum(UserContract::ROLE, ['SuperAdmin', 'Admin', 'AdvUser', 'User']);
+            $table->enum(UserContract::ROLE, [Roles::SUPER_ADMIN, Roles::ADMIN, Roles::ADVANCED, Roles::REGULAR]);
             $table->string(UserContract::PASSWORD);
             $table->unsignedInteger(UserContract::CENTER_ID)->nullable()->default(null);
             $table->rememberToken();

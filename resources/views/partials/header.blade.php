@@ -50,20 +50,29 @@
 
         </div>
 
-        @if(Auth::user()->role == 'SuperAdmin')
+        @can('superAdmin')
             @include('partials.centers_select')
-        @endif
+        @endcan
 
         <div class="collapse navbar-collapse navbar-ex1-collapse">
 
             <!-- .nav -->
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="{{ route('center.create') }}">@lang('pages/center.newButton')</a>
-                </li>
-                <li>
-                    <a href="{{ route('store.create') }}">@lang('pages/store.newButton')</a>
-                </li>
+                @can('superAdmin')
+                    <li>
+                        <a href="{{ route('center.create') }}">@lang('pages/center.newButton')</a>
+                    </li>
+                @endcan
+                @can('admin')
+                    <li>
+                        <a href="{{ route('store.create') }}">@lang('pages/store.newButton')</a>
+                    </li>
+                @endcan
+                @can('advancedUser')
+                    <li>
+                        <a href="{{ route('articlesNew.addPallet') }}">@lang('pages/article_new.title')</a>
+                    </li>
+                @endcan
             </ul><!-- /.nav -->
         </div>
     </div><!-- /.container-fluid -->

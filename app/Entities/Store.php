@@ -3,11 +3,9 @@
 namespace App\Entities;
 
 use App\Commons\StoreContract;
-
 use App\Enums\PalletTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Mockery\CountValidator\Exception;
 
 class Store extends Model
 {
@@ -56,7 +54,7 @@ class Store extends Model
     
     public function getAllLocations()
     {
-	    $positions = array();
+    	$positions = array();
 	    for ( $i=0; $i < $this->rows; $i++ ) {
 		    for ( $j=0; $j < $this->columns; $j++ ) {
 			    $location = "$i-$j";

@@ -31,10 +31,11 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectPath = '/centers';
+    protected $redirectPath = '/';
     protected $loginPath = '/login';
     protected $redirectAfterLogout = '/login';
     protected $redirectTo = '/login';
+	protected $lockoutTime = 900; // 15 minutos
 
     /**
      * Create a new authentication controller instance.
@@ -90,7 +91,12 @@ class AuthController extends Controller
             $this->clearLoginAttempts($request);
         }
 
-        session(['center_id' => Auth::user()->center_id]);
+        $user = Auth::user();
+	    if (isset($user->center_id)) {
+		    session( [ 'center_id' => $user->center_id ] );
+	    } else {
+		    session( [ 'center_id' => 1 ] );
+	    }
 
         if (method_exists($this, 'authenticated')) {
             return $this->authenticated($request, Auth::guard($this->getGuard())->user());

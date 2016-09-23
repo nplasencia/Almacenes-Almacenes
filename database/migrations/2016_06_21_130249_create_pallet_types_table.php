@@ -1,12 +1,11 @@
 <?php
 
-use App\Commons\StoreContract;
-use App\Commons\CenterContract;
+use App\Commons\PalletTypeContract;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStoresTable extends Migration
+class CreatePalletTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,19 +14,13 @@ class CreateStoresTable extends Migration
      */
     public function up()
     {
-        Schema::create(StoreContract::TABLE_NAME, function (Blueprint $table) {
-            $table->increments(StoreContract::ID);
-            $table->unsignedInteger(StoreContract::CENTER_ID);
-            $table->string(StoreContract::NAME);
-            $table->unsignedSmallInteger(StoreContract::ROWS);
-            $table->unsignedSmallInteger(StoreContract::COLUMNS);
-            $table->unsignedSmallInteger(StoreContract::LONGITUDE);
-            $table->softDeletes();
-            $table->timestamps();
+        Schema::create(PalletTypeContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(PalletTypeContract::ID);
+            $table->string(PalletTypeContract::NAME);
+            $table->unsignedSmallInteger(PalletTypeContract::WIDTH);
+            $table->unsignedSmallInteger(PalletTypeContract::LARGE);
 
-            $table->foreign(StoreContract::CENTER_ID)->references(CenterContract::ID)->on(CenterContract::TABLE_NAME)->onDelete('cascade');
-
-            $table->unique( [StoreContract::CENTER_ID, StoreContract::NAME] );
+            $table->unique( [PalletTypeContract::NAME] );
         });
     }
 
@@ -38,6 +31,6 @@ class CreateStoresTable extends Migration
      */
     public function down()
     {
-        Schema::drop(StoreContract::TABLE_NAME);
+        Schema::drop(PalletTypeContract::TABLE_NAME);
     }
 }

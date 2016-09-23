@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use Illuminate\Http\Request;
+use App\Repositories\ArticleRepository;
 
 class DashboardController extends Controller
 {
 
     protected $icon  = 'fa fa-dashboard';
     protected $title = 'menu.dashboard';
-    
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
-    private function resume()
+	protected $articleRepository;
+    
+    public function __construct(ArticleRepository $articleRepository)
     {
-        return view('dashboard', ['title' => trans($this->title), 'icon' => $this->icon]);
+	    $this->articleRepository = $articleRepository;
     }
 
     /**
@@ -28,6 +24,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return $this->resume();
+	    $expiredArticles      = $this->articleRepository->getNextToExpire(session('center_id'), 100);
+	    $lastInsertedArticles = $this->articleRepository->getLastInserted(session('center_id'), 100);
+
+	    $viewArray = ['Mercancía próxima a caducarse' => $expiredArticles, 'Últimas entradas de mercancía' => $lastInsertedArticles];
+	    return view('dashboard', ['title' => trans($this->title), 'icon' => $this->icon, 'viewArray' => $viewArray]);
     }
 }

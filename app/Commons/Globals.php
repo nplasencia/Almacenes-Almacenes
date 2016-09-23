@@ -1,6 +1,6 @@
 <?php
 
-namespace Cuadrantes\Commons;
+namespace App\Commons;
 
 class Globals
 {

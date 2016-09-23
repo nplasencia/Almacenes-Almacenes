@@ -2,8 +2,10 @@
 
 namespace App\Commons;
 
-class Globals
+class Roles
 {
-	const CARBON_VIEW_FORMAT = 'd/m/Y';
-	const CARBON_SQL_FORMAT = 'Y-m-d';
+	const SUPER_ADMIN = 'SuperAdmin';
+	const ADMIN       = 'Admin';
+	const ADVANCED    = 'AdvUser';
+	const REGULAR     = 'User';
 }

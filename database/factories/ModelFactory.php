@@ -14,8 +14,11 @@
 use App\Entities\Center;
 use App\Entities\Pallet;
 use App\Entities\PalletArticle;
+use App\Commons\Roles;
 use App\Entities\Store;
 use App\Entities\User;
+use App\Entities\ArticleNew;
+use App\Commons\ArticleNewContract;
 
 use App\Commons\CenterContract;
 use App\Commons\PalletContract;
@@ -32,7 +35,7 @@ $factory->define(User::class, function () {
         UserContract::SURNAME   => $faker->lastName,
         UserContract::EMAIL     => $faker->unique()->safeEmail,
         UserContract::TELEPHONE => $faker->phoneNumber,
-        UserContract::ROLE      => array_rand(['Admin', 'AdvUser', 'User']),
+        UserContract::ROLE      => $faker->randomElement([Roles::ADMIN, Roles::ADVANCED, Roles::REGULAR]),
         UserContract::PASSWORD  => bcrypt(str_random(10)),
         'remember_token'        => str_random(10),
         UserContract::CENTER_ID => random_int(1, 100),
@@ -84,5 +87,14 @@ $factory->define(PalletArticle::class, function (Faker\Generator $faker) {
 		PalletArticleContract::NUMBER     => random_int(1,100),
 		PalletArticleContract::WEIGHT     => $faker->randomFloat(2,0,10),
 		PalletArticleContract::EXPIRATION => $faker->dateTimeBetween('+0 days', '+2 years'),
+	];
+});
+
+$factory->define(ArticleNew::class, function () {
+
+	return [
+		ArticleNewContract::ARTICLE_ID => random_int(1, 476),
+		ArticleNewContract::LOT        => 'L'.random_int(1000, 9999),
+		ArticleNewContract::TOTAL      => random_int(1,100),
 	];
 });

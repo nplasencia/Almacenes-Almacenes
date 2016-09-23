@@ -10,4 +10,9 @@ class PalletType extends Model
     public $timestamps = false;
 
     protected $fillable = [ PalletTypeContract::NAME, PalletTypeContract::LARGE, PalletTypeContract::WIDTH ];
+
+	public function pallets()
+	{
+		return $this->hasMany(Pallet::class);
+	}
 }

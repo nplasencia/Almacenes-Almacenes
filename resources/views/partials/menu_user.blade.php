@@ -14,7 +14,7 @@
             {{--<span class="label label-danger user-label">16</span>--}}
         </a>
         <div class="media-body">
-            <h5 class="media-heading">{{ Auth::user()->getCompleteName() }}</h5>
+            <h5 class="media-heading">{{ Auth::user()->completeName }}</h5>
             <ul class="list-unstyled user-info">
                 <li>{{ trans('general.'.Auth::user()->role) }}</li>
                 <li>Último acceso:

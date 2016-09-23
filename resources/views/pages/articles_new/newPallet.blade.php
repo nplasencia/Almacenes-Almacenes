@@ -17,18 +17,18 @@
                 <div class="body collapse in" style="min-height: 233px;">
                     @include('partials.errors')
 
-                    <form class="form-horizontal" method="POST" action="">
+                    <form class="form-horizontal" method="POST" action="{{ route('articlesNew.storeNewPallet') }}">
 
                         {{ csrf_field() }}
 
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="store_id">@lang('pages/pallet_article.storeName')</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="@lang('pages/pallet_article.selectStores')" class="form-control chosen-select" name="store_id" id="storeSelect" required>
+                                <select data-placeholder="@lang('pages/pallet_article.selectStores')" class="form-control" name="store_id" id="storeSelect" required>
                                     <option value=""></option>
                                     @foreach($stores as $store)
                                         <option value="{{ $store->id }}"
-                                            @if( old('$store_id') == $store->id ) selected="selected" @endif
+                                            @if( old('store_id') == $store->id ) selected="selected" @endif
                                         >{{ $store->name }}</option>
                                     @endforeach
                                 </select>
@@ -47,11 +47,11 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="pallet_id">@lang('general.palletType')</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="Selecciona el tipo de palé ..." class="form-control chosen-select" name="pallet_type_id" id="pallet_type_id">
+                                <select data-placeholder="Selecciona el tipo de palé ..." class="form-control" name="pallet_type_id" id="pallet_type_id">
                                     <option value=""></option>
                                     @foreach($palletTypes as $pallet)
                                         <option value="{{ $pallet->id }}"
-                                                @if( old('$pallet_id') == $pallet->id ) selected="selected" @endif
+                                                @if( old('pallet_id') == $pallet->id ) selected="selected" @endif
                                         >{{ $pallet->name }}</option>
                                     @endforeach
                                 </select>
@@ -74,14 +74,8 @@
 @stop
 
 @push('scripts')
-    <script src="{{ asset('/assets/js/datatables.min.js') }}"></script>
 
     <script>
-        $(function() {
-            $('#articlesNextExpirationResumeTable').DataTable({
-                "order": [[ 7, "asc" ]]
-            });
-        });
 
         $(document).ready(function () {
 

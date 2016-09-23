@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Middleware\Authorize;
 
 class Kernel extends HttpKernel
 {
@@ -32,6 +33,24 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
+        'superAdmin' => [
+	        'web',
+	        'auth',
+	        Authorize::class.':superAdmin',
+        ],
+
+	    'admin' => [
+	    	'web',
+		    'auth',
+		    Authorize::class.':admin',
+	    ],
+
+        'advancedUser' => [
+	        'web',
+	        'auth',
+	        Authorize::class.':advancedUser',
+        ],
+
         'api' => [
             'throttle:60,1',
         ],
@@ -45,10 +64,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth'       => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'can'        => \Illuminate\Foundation\Http\Middleware\Authorize::class,
+        'guest'      => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

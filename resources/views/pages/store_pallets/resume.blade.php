@@ -10,7 +10,7 @@
                         <div class="icons">
                             <i class="fa fa-tasks"></i>
                         </div>
-                        <h5>@lang('pages/store_pallets.box_title'){{ $pallet->position }} {{ $pallet->viewType }}</h5>
+                        <h5>@lang('pages/store_pallets.box_title'){{ $pallet->position }} (Palé {{ $pallet->palletType->name }})</h5>
 
                         <div class="toolbar">
                             <nav style="padding: 8px;">

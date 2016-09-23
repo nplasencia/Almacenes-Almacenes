@@ -59,6 +59,20 @@ class PalletRepository extends BaseRepository
 			->where(PalletContract::POSITION, $position)->firstOrFail();
 	}
 
+	public function newAndStore(array $data)
+	{
+		$position = 0;
+		if (isset($data[PalletContract::POSITION])) {
+			$position = $data[PalletContract::POSITION];
+		}
+		$pallet = new Pallet([PalletContract::STORE_ID       => $data[PalletContract::STORE_ID],
+							  PalletContract::PALLET_TYPE_ID => $data[PalletContract::PALLET_TYPE_ID],
+							  PalletContract::LOCATION       => $data[PalletContract::LOCATION],
+							  PalletContract::POSITION       => $position]);
+		$pallet->save();
+		return $pallet;
+	}
+
     public function update($id, array $data)
     {
         return $this->findOrFail($id)->update([PalletContract::STORE_ID => $data[PalletContract::STORE_ID]]);

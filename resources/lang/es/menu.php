@@ -18,4 +18,5 @@ return [
     'stores'        => 'Almacenes',
 	'palletArticle' => 'Mercancía',
     'user_profile'  => 'Configuración cuenta',
+	'users'         => 'Usuarios',
 ];

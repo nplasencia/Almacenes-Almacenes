@@ -11,11 +11,12 @@
                     @include('partials.msg_success')
 
                     <div class="row" style="margin-left: 0; margin-bottom: 10px;">
-
-                        <a href="{{ route('store.create') }}" class="btn btn-success">
-                            <i class="fa fa-plus-circle"></i>
-                            <span class="link-title">&nbsp;@lang('pages/store.newButton')</span>
-                        </a>
+                        @can('admin')
+                            <a href="{{ route('store.create') }}" class="btn btn-success">
+                                <i class="fa fa-plus-circle"></i>
+                                <span class="link-title">&nbsp;@lang('pages/store.newButton')</span>
+                            </a>
+                        @endcan
 
                     </div>
 
@@ -29,7 +30,9 @@
                             <th class="text-center">@lang('pages/store.totalSpace')</th>
                             <th class="text-center">@lang('pages/store.usedSpace')</th>
                             <th class="text-center">@lang('pages/store.emptySpace')</th>
-                            <th style="min-width: 62px;">&nbsp;</th>
+                            @can('admin')
+                                <th style="min-width: 62px;">&nbsp;</th>
+                            @endcan
                         </tr>
                         </thead>
                         <tbody>
@@ -50,18 +53,20 @@
                                         {{ $store->emptySpace() }}
                                     </a>
                                 </td>
-                                <td align="right" style="vertical-align: middle;">
-                                    <div class="btn-group">
-                                        <a href="{{ route('store.details', $store->id) }}" data-toggle="tooltip" data-original-title="@lang('general.edit')" data-placement="bottom" class="btn btn-success btn-xs">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <a href="{{ route('store.delete', $store->id) }}" data-toggle="tooltip" data-original-title="@lang('general.remove')" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </div>
-                                </td>
+                                @can('admin')
+                                    <td align="right" style="vertical-align: middle;">
+                                        <div class="btn-group">
+                                            <a href="{{ route('store.details', $store->id) }}" data-toggle="tooltip" data-original-title="@lang('general.edit')" data-placement="bottom" class="btn btn-success btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </div>
+                                        <div class="btn-group">
+                                            <a href="{{ route('store.delete', $store->id) }}" data-toggle="tooltip" data-original-title="@lang('general.remove')" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                @endcan
                             </tr>
                         @endforeach
                         </tbody>
@@ -92,10 +97,14 @@
                 { data: 'totalSpace', name: 'totalSpace', searchable: false},
                 { data: 'usedSpace', name: 'usedSpace', searchable: false},
                 { data: 'emptySpace', name: 'emptySpace', searchable: false},
-                { data: 'actions', name: 'actions', orderable: false, searchable: false}
+                @can('admin')
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false}
+                @endcan
             ],
             "aoColumnDefs": [
-                { "sClass": "text-right" , "aTargets": [7] },
+                @can('admin')
+                    { "sClass": "text-right" , "aTargets": [7] },
+                @endcan
                 { "sClass": "text-center", "aTargets": [1,2,3,4,5,6] }
             ]
         });

@@ -10,7 +10,9 @@ return [
 
     'top_text'         => 'Por favor, revisa los problemas indicados en la siguiente lista:',
     'enter'            => 'Entrar',
+	'add'              => 'Añadir',
     'save'             => 'Guardar',
+	'next'             => 'Siguiente',
     'update'           => 'Actualizar',
     'cancel'           => 'Cancelar',
 	'info'             => 'Información',

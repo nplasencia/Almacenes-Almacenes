@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 use App\Commons\UserContract;
 use App\Entities\User;
+use App\Commons\Roles;
 
 class UsersTableSeeder extends Seeder
 {
@@ -25,8 +26,8 @@ class UsersTableSeeder extends Seeder
             UserContract::SURNAME   => 'Plasencia Cruz',
             UserContract::EMAIL     => 'nplasencia@auret.es',
             UserContract::TELEPHONE => '620467068',
-            UserContract::ROLE      => 'superAdmin',
-            UserContract::PASSWORD  =>  bcrypt('admin'),
+            UserContract::ROLE      => Roles::SUPER_ADMIN,
+            UserContract::PASSWORD  => bcrypt('admin'),
             UserContract::CENTER_ID => NULL,
         ]);
 
@@ -35,7 +36,7 @@ class UsersTableSeeder extends Seeder
             UserContract::SURNAME   => 'Poch Barrera',
             UserContract::EMAIL     => 'andrespbarrera@gmail.com',
             UserContract::TELEPHONE => '687866335',
-            UserContract::ROLE      => 'superAdmin',
+            UserContract::ROLE      => Roles::SUPER_ADMIN,
             UserContract::PASSWORD  =>  bcrypt('admin'),
             UserContract::CENTER_ID => NULL,
         ]);
@@ -44,7 +45,7 @@ class UsersTableSeeder extends Seeder
             UserContract::NAME      => 'Mario',
             UserContract::SURNAME   => 'Cruz',
             UserContract::EMAIL     => 'mario@alcruzcanarias.com',
-            UserContract::ROLE      => 'superAdmin',
+            UserContract::ROLE      => Roles::SUPER_ADMIN,
             UserContract::PASSWORD  =>  bcrypt('admin'),
             UserContract::CENTER_ID => NULL,
         ]);

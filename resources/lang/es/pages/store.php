@@ -10,6 +10,7 @@ return [
     'totalSpace'         => 'Huecos totales',
     'usedSpace'          => 'Huecos usados',
     'emptySpace'         => 'Huecos libres',
+	'emptySpaceTitle'    => 'Huecos libres del almacén :StoreName',
 
     // Tooltips
     'seeUsedSpace'       => 'Ver huecos usados',

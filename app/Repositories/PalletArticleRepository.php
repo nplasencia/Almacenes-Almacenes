@@ -18,5 +18,4 @@ class PalletArticleRepository extends BaseRepository
 		return $this->newQuery()->where(PalletArticleContract::LOT, $lot)->where(PalletArticleContract::PALLET_ID, $pallet_id)
 			->where(PalletArticleContract::ARTICLE_ID, $article_id)->first();
     }
-    
 }

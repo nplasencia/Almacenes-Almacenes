@@ -11,7 +11,7 @@
                         <div class="icons">
                             <i class="fa fa-th"></i>
                         </div>
-                        <h5>Huecos libres del almacén {{ $storeName }}</h5>
+                        <h5>@lang('pages/store.emptySpaceTitle', ['StoreName' => $storeName])</h5>
 
                         @include('partials.window_options')
                     </header>

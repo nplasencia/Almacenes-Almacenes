@@ -12,39 +12,37 @@
 
                     <div class="row" style="margin-left: 0; margin-bottom: 10px;">
 
-                        <a href="{{ route('center.create') }}" class="btn btn-success">
+                        <a href="{{ route('user.create') }}" class="btn btn-success">
                             <i class="fa fa-plus-circle"></i>
-                            <span class="link-title">&nbsp;@lang('pages/center.newButton')</span>
+                            <span class="link-title">&nbsp;@lang('pages/user.new_button')</span>
                         </a>
 
                     </div>
 
-                    <table id="centersResumeTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table" cellspacing="0" width="100%">
+                    <table id="usersResumeTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table" cellspacing="0" width="100%">
                         <thead>
-                        <tr>
-                            <th class="text-center">@lang('pages/center.name')</th>
-                            <th class="text-center">@lang('pages/center.address')</th>
-                            <th class="text-center">@lang('pages/center.postalCode')</th>
-                            <th class="text-center">@lang('pages/center.municipality')</th>
-                            <th class="text-center">@lang('pages/center.island')</th>
-                            <th class="text-center">@lang('pages/center.emptySpaces')</th>
-                            <th style="min-width: 62px;">&nbsp;</th>
-                        </tr>
+                            <tr>
+                                <th class="text-center">@lang('pages/user.name')</th>
+                                <th class="text-center">@lang('pages/user.surname')</th>
+                                <th class="text-center">@lang('pages/user.role')</th>
+                                <th class="text-center">@lang('pages/user.telephone')</th>
+                                <th class="text-center">@lang('pages/user.email')</th>
+                                <th style="min-width: 62px;">&nbsp;</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($centers as $center)
-                            <tr data-id="{{ $center->id }}" class="center">
-                                <td>{{ $center->name }}</td>
-                                <td>{{ $center->address }}</td>
-                                <td>{{ $center->postalCode }}</td>
-                                <td>{{ $center->municipality->name }}</td>
-                                <td>{{ $center->municipality->island->name }}</td>
-                                <td class="text-center">{{ $center->emptySpace() }}</td>
+                        @foreach($users as $user)
+                            <tr data-id="{{ $user->id }}" class="center">
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->surname }}</td>
+                                <td>{{ trans('general.'.$user->role) }}</td>
+                                <td>{{ $user->telephone }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td align="right" style="vertical-align: middle;">
-                                    <a href="{{ route('center.details', $center->id) }}" data-toggle="tooltip" data-original-title="@lang('general.edit')" data-placement="bottom" class="btn btn-success btn-xs">
+                                    <a href="{{ route('user.details', $user->id) }}" data-toggle="tooltip" data-original-title="@lang('general.edit')" data-placement="bottom" class="btn btn-success btn-xs">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    <a href="{{ route('center.delete', $center->id) }}" data-toggle="tooltip" data-original-title="@lang('general.remove')" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                                    <a href="{{ route('user.delete', $user->id) }}" data-toggle="tooltip" data-original-title="@lang('general.remove')" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
                                         <i class="fa fa-trash-o"></i>
                                     </a>
                                 </td>
@@ -52,7 +50,6 @@
                         @endforeach
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -63,25 +60,23 @@
 
 <script>
     $(function() {
-        $('#centersResumeTable').DataTable({
+        $('#usersResumeTable').DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "{!! route('center.ajaxResume') !!}",
+            "ajax": "{!! route('user.ajaxResume') !!}",
             "fnDrawCallback": function() {
                 $('[data-toggle="tooltip"]').tooltip();
             },
             columns: [
                 { data: 'name', name: 'name'},
-                { data: 'address', name: 'address'},
-                { data: 'postalCode', name: 'postalCode'},
-                { data: 'municipality.name', name: 'municipality.name'},
-                { data: 'municipality.island.name', name: 'municipality.island.name'},
-                { data: 'emptySpace', searchable: false},
+                { data: 'surname', name: 'surname'},
+                { data: 'role', name: 'role'},
+                { data: 'telephone', name: 'telephone'},
+                { data: 'email', name: 'email'},
                 { data: 'actions', name: 'actions', orderable: false, searchable: false}
             ],
             "aoColumnDefs": [
-                { "sClass": "text-right" , "aTargets": [6] },
-                { "sClass": "text-center", "aTargets": [5] }
+                { "sClass": "text-right" , "aTargets": [5] },
             ]
         });
     });

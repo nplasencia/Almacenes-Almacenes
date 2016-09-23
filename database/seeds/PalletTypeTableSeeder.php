@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Entities\Island;
-use App\Commons\IslandContract;
+use App\Entities\PalletType;
+use App\Commons\PalletTypeContract;
 
-class IslandTableSeeder extends Seeder
+class PalletTypeTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,11 +14,13 @@ class IslandTableSeeder extends Seeder
      */
     public function run()
     {
-        $islands = ['El Hierro', 'Fuerteventura', 'Gran Canaria', 'La Gomera', 'La Palma', 'Lanzarote', 'Tenerife'];
+        $palletTypes = [['Americano', 1, 1], ['Europeo', 1.2, 0.8]];
 
-        foreach ($islands as $name) {
-            $island = new Island([IslandContract::NAME => $name]);
-            $island->save();
+        foreach ($palletTypes as $palletTypeData) {
+            $palletType = new PalletType([PalletTypeContract::NAME  => $palletTypeData[0],
+                                          PalletTypeContract::LARGE => $palletTypeData[1],
+                                          PalletTypeContract::WIDTH => $palletTypeData[2]]);
+            $palletType->save();
         }
     }
 }

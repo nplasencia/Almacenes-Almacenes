@@ -30,16 +30,10 @@ class Pallet extends Model
 		    ->withPivot(PalletArticleContract::ID, PalletArticleContract::LOT, PalletArticleContract::NUMBER, PalletArticleContract::WEIGHT, PalletArticleContract::EXPIRATION);
     }
 
-    //
-
-	public function getViewTypeAttribute()
-	{
-		if ($this->pallet_type_id == 1) {
-			return '(Palé americano)';
-		} else {
-			return '(Palé europeo)';
-		}
-	}
+    public function palletType()
+    {
+	    return $this->belongsTo(PalletType::class);
+    }
 
     // Functions
 

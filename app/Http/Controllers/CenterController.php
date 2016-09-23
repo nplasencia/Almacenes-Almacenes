@@ -138,7 +138,9 @@ class CenterController extends Controller
 		$center = Center::findOrFail(session('center_id'));
 		$storesLocations = array();
 		foreach ($center->stores as $store) {
-			$storesLocations[ $store->name ] = $store->getPalletPositions( true );
+			if ($store->name != 'Picking') {
+				$storesLocations[ $store->name ] = $store->getPalletPositions( true );
+			}
 		}
 
 		return view('pages.centers.pallets_detail', ['title' => trans('pages/center.emptySpaceTitle',['Center' => $center->name]),

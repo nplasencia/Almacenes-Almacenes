@@ -29,7 +29,9 @@
                             <th class="text-center">@lang('pages/pallet_article.weight')</th>
                             <th class="text-center">@lang('pages/pallet_article.registeredDate')</th>
                             <th class="text-center">@lang('pages/pallet_article.expirationDate')</th>
-                            <th style="min-width: 62px;">&nbsp;</th>
+                            @can('advancedUser')
+                                <th style="min-width: 62px;">&nbsp;</th>
+                            @endcan
                         </tr>
                         </thead>
                         <tbody>
@@ -47,20 +49,22 @@
                                 <td class="text-center">{{ $pallet->totalWeight }}</td>
                                 <td class="text-center">{{ $pallet->created_at }}</td>
                                 <td class="text-center">{{ $pallet->expiration }}</td>
-                                <td align="right">
-                                    <span data-toggle="modal" data-target="#transferModal">
-                                        <a data-toggle="tooltip" data-original-title="@lang('general.transfer')" data-placement="bottom" class="btn btn-warning btn-xs btn-transfer">
-                                            <i class="fa fa-exchange"></i>
-                                        </a>
-                                    </span>
-                                    @if ($pallet->storeName != 'Picking')
+                                @can('advancedUser')
+                                    <td align="right">
                                         <span data-toggle="modal" data-target="#transferModal">
-                                            <a data-toggle="tooltip" data-original-title="@lang('general.picking')" data-placement="bottom" class="btn btn-danger btn-xs btn-picking">
-                                                <i class="fa fa-sign-out"></i>
+                                            <a data-toggle="tooltip" data-original-title="@lang('general.transfer')" data-placement="bottom" class="btn btn-warning btn-xs btn-transfer">
+                                                <i class="fa fa-exchange"></i>
                                             </a>
                                         </span>
-                                    @endif
-                                </td>
+                                        @if ($pallet->storeName != 'Picking')
+                                            <span data-toggle="modal" data-target="#transferModal">
+                                                <a data-toggle="tooltip" data-original-title="@lang('general.picking')" data-placement="bottom" class="btn btn-danger btn-xs btn-picking">
+                                                    <i class="fa fa-sign-out"></i>
+                                                </a>
+                                            </span>
+                                        @endif
+                                    </td>
+                                @endcan
                             </tr>
                         @endforeach
                         </tbody>
