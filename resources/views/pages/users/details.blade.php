@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="role">@lang('pages/user.role')</label>
                             <div class=" col-lg-4">
-                                <select class="form-control chosen-select" name="role" id="roleSelect" required>
+                                <select class="form-control" name="role" id="roleSelect" required>
                                     <option value="" disabled selected>@lang('pages/user.select_role')</option>
                                     @foreach($roles as $role)
                                         <option value="{{ $role }}"

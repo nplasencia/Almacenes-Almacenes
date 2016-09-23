@@ -78,7 +78,7 @@
                         </div>
 
                         <div class="form-actions no-margin-bottom text-center">
-                            <a class="btn btn-default btn-sm" href="{{ back() }}">@lang('general.cancel')</a>
+                            <a class="btn btn-default btn-sm" href="{{ route('articlesNew.addPallet') }}">Finalizar</a>
                             <input type="submit" class="btn btn-primary" value="@lang('general.add')">
                         </div>
                     </form>
@@ -119,7 +119,7 @@
                                     <td class="text-center">{{ $pallet->location }}</td>
                                     <td class="text-center">{{ $pallet->position }}</td>
                                     <td class="text-center">{{ $article->pivot->number }}</td>
-                                    <td class="text-center">{{ $article->pivot->totalWeight }}</td>
+                                    <td class="text-center">{{ $article->pivot->weight * $article->pivot->number }}</td>
                                     <td class="text-center">{{ $article->pivot->created_at }}</td>
                                     <td class="text-center">{{ $article->pivot->expiration }}</td>
                                     <td align="right">

@@ -2,29 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Commons\UserContract;
-use App\Entities\User;
-use App\Repositories\CenterRepository;
-use App\Repositories\UserRepository;
+use App\Repositories\UserProfileRepository;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use Yajra\Datatables\Facades\Datatables;
 
 class UserProfileController extends Controller
 {
 	protected $icon              = 'fa fa-users';
 
-	protected $userRepository;
+	protected $userProfileRepository;
 
-    public function __construct(CenterRepository $centerRepository, UserRepository $userRepository)
+    public function __construct(UserProfileRepository $userProfileRepository)
     {
-    	$this->centerRepository = $centerRepository;
-        $this->userRepository   = $userRepository;
+        $this->userProfileRepository   = $userProfileRepository;
     }
 
     protected function userProfileValidation(Request $request)
@@ -48,7 +42,7 @@ class UserProfileController extends Controller
     public function update(Request $request, Guard $auth)
     {
         $this->userProfileValidation($request);
-        $this->userRepository->update($auth, $request->get('name'), $request->get('surname'), $request->get('telephone'), $request->get('email'));
+        $this->userProfileRepository->update($auth, $request->get('name'), $request->get('surname'), $request->get('telephone'), $request->get('email'));
         if ($request->file('image') !== null) {
             $file = $request->file('image');
             Storage::disk('public')->put('avatar/'.$auth->user()->id.'.jpg', File::get($file));

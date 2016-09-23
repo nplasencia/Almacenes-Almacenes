@@ -56,7 +56,7 @@
                 $('[data-toggle="tooltip"]').tooltip();
             },
         columns: [
-                { data: 'name', name: 'name'},
+                { data: 'name' },
                 { data: 'groupName', name: 'groupName'},
                 { data: 'subgroup', name: 'subgroup'},
                 { data: 'sum', name: 'sum', searchable: false},

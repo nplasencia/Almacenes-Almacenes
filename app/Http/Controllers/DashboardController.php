@@ -6,7 +6,6 @@ use App\Repositories\ArticleRepository;
 
 class DashboardController extends Controller
 {
-
     protected $icon  = 'fa fa-dashboard';
     protected $title = 'menu.dashboard';
 

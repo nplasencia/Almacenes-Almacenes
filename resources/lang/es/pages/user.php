@@ -15,7 +15,7 @@ return [
     'select_center' => 'Selecciona el centro del usuario',
 
 	// Success messages
-    'store_success'      => 'El usuario :Name ha sido creado exitosamente',
+    'store_success'      => 'El usuario :Name ha sido creado exitosamente. Se ha enviado correctamente un email al usuario con sus credenciales de acceso.',
     'update_success'     => 'El usuario :Name ha sido actualizado exitosamente',
     'delete_success'     => 'El usuario :Name ha sido eliminado exitosamente',
 

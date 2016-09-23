@@ -44,7 +44,7 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 // Users
-Route::group(['middleware' => 'admin'], function() {
+Route::group(['middleware' => 'auth', 'admin'], function() {
 
 	Route::get('users', 'UserController@resume')->name('users.resume');
 
@@ -60,27 +60,27 @@ Route::group(['middleware' => 'admin'], function() {
 });
 
 // Centers
-Route::group(['middleware' => 'superAdmin'], function() {
+Route::group( [ 'middleware' => 'auth', 'superAdmin' ], function () {
 
-    Route::get('centers', 'CenterController@resume')->name('center.resume');
+	Route::get( 'centers', 'CenterController@resume' )->name( 'center.resume' );
 
-    Route::get ('newCenter', 'CenterController@create')->name('center.create');
-    Route::post('newCenter', 'CenterController@store')->name('center.store');
+	Route::get( 'newCenter', 'CenterController@create' )->name( 'center.create' );
+	Route::post( 'newCenter', 'CenterController@store' )->name( 'center.store' );
 
-    Route::post('centerChange', 'CenterController@change')->name('center.change');
+	Route::post( 'centerChange', 'CenterController@change' )->name( 'center.change' );
 
-    Route::get ('center/{id}', 'CenterController@details')->name('center.details');
-    Route::post('center/{id}', 'CenterController@update')->name('center.update');
+	Route::get( 'center/{id}', 'CenterController@details' )->name( 'center.details' );
+	Route::post( 'center/{id}', 'CenterController@update' )->name( 'center.update' );
 
-    Route::get ('centerDelete/{id}', 'CenterController@delete')->name('center.delete');
-    Route::delete('centerDelete/{id}', 'CenterController@delete')->name('center.delete');
+	Route::get( 'centerDelete/{id}', 'CenterController@delete' )->name( 'center.delete' );
+	Route::delete( 'centerDelete/{id}', 'CenterController@delete' )->name( 'center.delete' );
 
-});
+} );
 
 // Stores
 Route::group(['middleware' => 'auth'], function() {
 
-	Route::group(['middleware' => 'admin'], function() {
+	Route::group(['middleware' => 'auth', 'admin'], function() {
 
 		Route::get ('newStore', 'StoreController@create')->name('store.create');
 		Route::post('newStore', 'StoreController@store')->name('store.store');
@@ -105,7 +105,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get( 'storePallets/{id}/{location}', 'PalletController@resume' )->name( 'storePallets.resume' );
 
-	Route::group(['middleware' => 'advancedUser'], function() {
+	Route::group(['middleware' => ['auth', 'advancedUser']], function() {
 
 		Route::post('palletTransfer/{id}', 'PalletController@transfer')->name('storePallets.transfer');
 
@@ -122,7 +122,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get ('article/{id}', 'PalletArticleController@details')->name('palletArticle.details');
 
-	Route::group(['middleware' => 'advancedUser'], function() {
+	Route::group(['middleware' => 'auth', 'advancedUser'], function() {
 
 		Route::post( 'articleTransfer/{id}', 'PalletArticleController@articleTransfer' )->name( 'palletArticle.transfer' );
 
@@ -136,12 +136,12 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 // NewArticles
-Route::group(['middleware' => 'advancedUser'], function() {
+Route::group(['middleware' => 'auth', 'advancedUser'], function() {
 
 	Route::get ('articlesNew/addPallet', 'ArticlesNewController@newPallet')->name('articlesNew.addPallet');
 	Route::post('articlesNew/addPallet', 'ArticlesNewController@storeNewPallet')->name('articlesNew.storeNewPallet');
 
-	Route::get('articlesNew/pallet/addArticles', 'ArticlesNewController@addArticlesToPallet')->name('articlesNew.addArticlesToPallet');
+	Route::get('articlesNew/pallet/{id}/addArticles', 'ArticlesNewController@addArticlesToPallet')->name('articlesNew.addArticlesToPallet');
 	Route::post('articlesNew/pallet/{id}/addArticles', 'ArticlesNewController@addArticlesToPallet')->name('articlesNew.storeArticlesToPallet');
 
 	//AJAX

@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            @foreach($viewArray as $title => $articles)
+            @foreach($viewArray as $titleBox => $articles)
 
                 @if (sizeof($articles) > 0)
                     <div class="box">
@@ -12,7 +12,7 @@
                             <div class="icons">
                                 <i class="fa fa-cubes"></i>
                             </div>
-                            <h5>@lang($title)</h5>
+                            <h5>@lang($titleBox)</h5>
                             @include('partials.window_options')
                         </header>
 

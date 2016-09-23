@@ -9,6 +9,7 @@ use App\Repositories\UserRepository;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -67,6 +68,17 @@ class UserController extends Controller
                 ->make(true);
 	}
 
+	private function sendEmailToNewUser(User $user)
+	{
+		Mail::send('emails.new_user', ['user' => $user], function ($m) use ($user) {
+			$m->from('no-reply.alcruz@auret.es', 'Alcruz Canarias Software');
+
+			$m->to($user->email, $user->name)->subject('[Almacenes] Has sido registrado correctamente');
+		});
+
+		return response();
+	}
+
     public function resume()
     {
 	    $users = $this->userRepository->getAllPaginated($this->defaultPagination);
@@ -87,6 +99,7 @@ class UserController extends Controller
 			$user = $this->userRepository->store($auth, $request->only([UserContract::NAME, UserContract::SURNAME, UserContract::ROLE,
 																        UserContract::CENTER_ID, UserContract::TELEPHONE, UserContract::EMAIL]));
 
+			$this->sendEmailToNewUser($user);
 			session()->flash('success', trans('pages/user.store_success',['Name' => $user->completeName]));
 		} catch (\PDOException $exception) {
 			session()->flash('info', trans('pages/user.store_exists', ['Name' => "{$request->get('name')} {$request->get('surname')}"]));
