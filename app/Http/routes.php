@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('userImage', 'UserProfileController@getProfileImage')->name('user_profile.image');
     Route::post('user', 'UserProfileController@update')->name('user_profile.update');
 
+	Route::post('changePassword', 'UserProfileController@changePassword')->name('user_profile.changePassword');
+
 	Route::get ('centerEmptySpace', 'CenterController@seeEmptySpace')->name('center.emptySpace');
     
 });
@@ -141,7 +143,7 @@ Route::group(['middleware' => 'auth', 'advancedUser'], function() {
 	Route::get ('articlesNew/addPallet', 'ArticlesNewController@newPallet')->name('articlesNew.addPallet');
 	Route::post('articlesNew/addPallet', 'ArticlesNewController@storeNewPallet')->name('articlesNew.storeNewPallet');
 
-	Route::get('articlesNew/pallet/{id}/addArticles', 'ArticlesNewController@addArticlesToPallet')->name('articlesNew.addArticlesToPallet');
+	Route::get('articlesNew/pallet/{id}/addArticles', 'ArticlesNewController@toAddArticlesView')->name('articlesNew.addArticlesToPallet');
 	Route::post('articlesNew/pallet/{id}/addArticles', 'ArticlesNewController@addArticlesToPallet')->name('articlesNew.storeArticlesToPallet');
 
 	//AJAX

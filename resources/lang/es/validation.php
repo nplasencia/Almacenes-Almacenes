@@ -125,6 +125,12 @@ return [
         'rows'              => 'Filas',
         'columns'           => 'columnas',
         'longitude'         => 'Fondo',
+
+	    // New articles in
+	    'newArticle_id'     => 'Mercancía',
+	    'number'            => 'Número de cajas',
+	    'weight'            => 'Kg/caja',
+	    'expiration'        => 'Fecha de caducidad',
     ],
 
 ];

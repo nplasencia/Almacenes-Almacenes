@@ -21,7 +21,7 @@ class UserRepository extends BaseRepository
 		    $data[UserContract::CENTER_ID] = $auth->user()->center_id;
 	    }
 	    $user = new User($data);
-	    $user->password = bcrypt(str_random(10));
+	    $user->password = Hash::make(str_random(10));
 	    $user->remember_token = str_random(10);
 	    $user->save();
     }

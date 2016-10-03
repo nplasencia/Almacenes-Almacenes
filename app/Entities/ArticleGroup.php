@@ -16,4 +16,5 @@ class ArticleGroup extends Model
 	{
 		return $this->hasMany(ArticleSubGroup::class);
 	}
+
 }

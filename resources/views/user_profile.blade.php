@@ -71,6 +71,12 @@
                         </div>
                     </div>
 
+                    <div class="form-group text-center">
+                        <a data-toggle="modal" data-target="#pswdModal">
+                            @lang('pages/user_profile.modal_pswd_title')
+                        </a>
+                    </div>
+
                     <div class="form-actions no-margin-bottom text-center col-lg-12">
                         <a class="btn btn-default btn-sm" href="{{ route('user_profile.resume') }}">@lang('general.cancel')</a>
                         <input type="submit" value="@lang('general.update')" class="btn btn-primary">
@@ -81,4 +87,9 @@
         </div>
     </div>
 
-@endsection
+@stop
+@push('modals')
+
+    @include('modals.password_change')
+
+@endpush

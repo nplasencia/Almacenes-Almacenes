@@ -6,7 +6,9 @@ use App\Repositories\UserProfileRepository;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +20,7 @@ class UserProfileController extends Controller
 
     public function __construct(UserProfileRepository $userProfileRepository)
     {
-        $this->userProfileRepository   = $userProfileRepository;
+        $this->userProfileRepository = $userProfileRepository;
     }
 
     protected function userProfileValidation(Request $request)
@@ -56,4 +58,17 @@ class UserProfileController extends Controller
         $file = Storage::disk('public')->get('avatar/'.$auth->user()->id.'.jpg');
         return new Response($file, 200);
     }
+
+	public function changePassword(Request $request)
+	{
+		if (!Hash::check($request->get('old_pswd'), Auth::user()->password)) {
+			session()->flash( 'info', trans( 'pages/user_profile.update_pswd_error' ) );
+		} else {
+			$user = Auth::user();
+			$user->password = Hash::make($request->get('new_pswd'));
+			$user->save();
+			session()->flash( 'success', trans( 'pages/user_profile.update_pswd_success' ) );
+		}
+		return Redirect::route('user_profile.resume');
+	}
 }

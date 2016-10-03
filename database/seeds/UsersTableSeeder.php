@@ -5,6 +5,7 @@ use Illuminate\Database\Seeder;
 use App\Commons\UserContract;
 use App\Entities\User;
 use App\Commons\Roles;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -27,7 +28,7 @@ class UsersTableSeeder extends Seeder
             UserContract::EMAIL     => 'nplasencia@auret.es',
             UserContract::TELEPHONE => '620467068',
             UserContract::ROLE      => Roles::SUPER_ADMIN,
-            UserContract::PASSWORD  => bcrypt('admin'),
+            UserContract::PASSWORD  => Hash::make('admin'),
             UserContract::CENTER_ID => NULL,
         ]);
 
@@ -37,7 +38,7 @@ class UsersTableSeeder extends Seeder
             UserContract::EMAIL     => 'andrespbarrera@gmail.com',
             UserContract::TELEPHONE => '687866335',
             UserContract::ROLE      => Roles::SUPER_ADMIN,
-            UserContract::PASSWORD  =>  bcrypt('admin'),
+            UserContract::PASSWORD  => Hash::make('admin'),
             UserContract::CENTER_ID => NULL,
         ]);
 
@@ -46,7 +47,7 @@ class UsersTableSeeder extends Seeder
             UserContract::SURNAME   => 'Cruz',
             UserContract::EMAIL     => 'mario@alcruzcanarias.com',
             UserContract::ROLE      => Roles::SUPER_ADMIN,
-            UserContract::PASSWORD  =>  bcrypt('admin'),
+            UserContract::PASSWORD  => Hash::make('admin'),
             UserContract::CENTER_ID => NULL,
         ]);
     }

@@ -57,13 +57,6 @@ class ArticlesNewController extends Controller
 		return view('pages/articles_new.newPallet', ['title' => trans($this->title), 'icon' => $this->icon, 'stores' => $stores, 'palletTypes' => $palletTypes]);
 	}
 
-	private function toAddArticlesView(Pallet $pallet)
-	{
-		$lots = $this->articleNewRepository->getAllLots();
-
-		return view('pages/articles_new.addArticles', ['title' => trans($this->title), 'icon' => $this->icon, 'pallet' => $pallet, 'lots' => $lots]);
-	}
-
 	public function storeNewPallet(Request $request)
 	{
 		$this->palletValidation($request);
@@ -72,8 +65,14 @@ class ArticlesNewController extends Controller
 		$pallet->add($this->palletRepository->getAllByStoreLocationPositionDesc($store_id, $request->get('location')),$store_id, $request->get('location'));
 
 		session()->flash('success', trans('pages/article_new.pallet_create_success',['location' => $pallet->location, 'storeName' => $pallet->store->name]));
-		return $this->toAddArticlesView($pallet);
+		return redirect()->route('articlesNew.addArticlesToPallet',['id' => $pallet->id]);
+	}
 
+	public function toAddArticlesView($id)
+	{
+		$pallet = Pallet::findOrFail($id);
+		$lots = $this->articleNewRepository->getAllLots();
+		return view('pages/articles_new.addArticles', ['title' => trans($this->title), 'icon' => $this->icon, 'pallet' => $pallet, 'lots' => $lots]);
 	}
 
 	public function addArticlesToPallet($id, Request $request)
@@ -87,7 +86,7 @@ class ArticlesNewController extends Controller
 															 PalletArticleContract::WEIGHT     => $request->get('weight'),
 															 PalletArticleContract::EXPIRATION => $expiration]);
 
-		$restingElements = $request->get('number') - $newArticle->total;
+		$restingElements = $newArticle->total - $request->get('number');
 		if ($restingElements == 0) {
 			$newArticle->delete();
 		} else {
@@ -95,7 +94,7 @@ class ArticlesNewController extends Controller
 		}
 
 		session()->flash('success', trans('pages/article_new.article_add_success',['number' => $request->get('number'), 'articleName' => $newArticle->article->name]));
-		return $this->toAddArticlesView($pallet);
+		return redirect()->back();
 	}
 
 	public function getNewArticlesByLot($lot, Request $request)

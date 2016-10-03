@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="lot">@lang('pages/pallet_article.lot')</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="@lang('pages/article_new.select_lot')" class="form-control chosen-select" name="lot" id="lotSelect" required>
+                                <select data-placeholder="@lang('pages/article_new.select_lot')" class="form-control chosen-select" name="lot" id="lotSelect">
                                     <option value=""></option>
                                     @foreach($lots as $lot)
                                         <option value="{{ $lot }}"
