@@ -146,6 +146,8 @@ Route::group(['middleware' => 'auth', 'advancedUser'], function() {
 	Route::get('articlesNew/pallet/{id}/addArticles', 'ArticlesNewController@toAddArticlesView')->name('articlesNew.addArticlesToPallet');
 	Route::post('articlesNew/pallet/{id}/addArticles', 'ArticlesNewController@addArticlesToPallet')->name('articlesNew.storeArticlesToPallet');
 
+	Route::get('articlesNew/palletArticle/delete/{id}', 'ArticlesNewController@deletePalletArticle')->name('articlesNew.deletePalletArticle');
+
 	//AJAX
 	Route::post('articlesNew/ajax/{lot}', 'ArticlesNewController@getNewArticlesByLot')->name('articlesNew.newArticles');
 

@@ -16,7 +16,8 @@ return [
 	'select_lot'            => 'Selecciona el número de lote',
 
 	// Success messages
-    'pallet_create_success' => 'Se ha colocado correctamente el nuevo palé en la ubicación :location del almacén :storeName',
-    'article_add_success'   => 'Se han colocado correctamente :number unidades de :articleName en el nuevo palé',
+    'pallet_create_success'  => 'Se ha colocado correctamente el nuevo palé en la ubicación :location del almacén :storeName',
+    'article_add_success'    => 'Se han colocado correctamente :number unidades de :articleName en el nuevo palé',
+	'article_remove_success' => 'Se ha quitado la mercancía correctamente del palé y se ha añadido de nuevo a las entradas',
 
 ];

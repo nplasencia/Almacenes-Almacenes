@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Commons\ArticleNewContract;
 use App\Entities\ArticleNew;
+use App\Entities\PalletArticle;
 
 class ArticleNewRepository extends BaseRepository
 {
@@ -26,5 +27,10 @@ class ArticleNewRepository extends BaseRepository
 	public function getByLot($lot)
 	{
 		return $this->newQuery()->where(ArticleNewContract::LOT, $lot)->with('article')->get()->sortBy('article.name');
+	}
+
+	public function getByLotAndArticle($lot, $article_id)
+	{
+		return $this->newQuery()->where(ArticleNewContract::LOT, $lot)->where(ArticleNewContract::ARTICLE_ID, $article_id)->withTrashed()->first();
 	}
 }

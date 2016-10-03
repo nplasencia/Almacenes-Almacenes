@@ -122,8 +122,10 @@
                                     <td class="text-center">{{ $article->pivot->weight * $article->pivot->number }}</td>
                                     <td class="text-center">{{ $article->pivot->created_at }}</td>
                                     <td class="text-center">{{ $article->pivot->expiration }}</td>
-                                    <td align="right">
-
+                                    <td class="text-center">
+                                        <a href="{{ route('articlesNew.deletePalletArticle', $article->pivot->id) }}" data-toggle="tooltip" data-original-title="@lang('general.remove')" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                                            <i class="fa fa-remove"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

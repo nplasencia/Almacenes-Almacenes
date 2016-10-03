@@ -8,6 +8,7 @@ use App\Commons\PalletArticleContract;
 use App\Commons\PalletContract;
 use App\Entities\ArticleNew;
 use App\Entities\Pallet;
+use App\Entities\PalletArticle;
 use App\Entities\PalletType;
 use App\Repositories\ArticleNewRepository;
 use App\Repositories\PalletRepository;
@@ -94,6 +95,23 @@ class ArticlesNewController extends Controller
 		}
 
 		session()->flash('success', trans('pages/article_new.article_add_success',['number' => $request->get('number'), 'articleName' => $newArticle->article->name]));
+		return redirect()->back();
+	}
+
+	public function deletePalletArticle($id)
+	{
+		$palletArticle = PalletArticle::findOrFail($id);
+		$newArticleSaved = $this->articleNewRepository->getByLotAndArticle($palletArticle->lot, $palletArticle->article_id);
+		if ($newArticleSaved->trashed()) {
+			$newArticleSaved->restore();
+			$newArticleSaved->total = $palletArticle->number;
+		} else {
+			$newArticleSaved->total = $newArticleSaved->total + $palletArticle->number;
+		}
+
+		$newArticleSaved->save();
+		$palletArticle->delete();
+		session()->flash('success', trans('pages/article_new.article_remove_success'));
 		return redirect()->back();
 	}
 
