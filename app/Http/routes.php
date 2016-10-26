@@ -154,7 +154,9 @@ Route::group(['middleware' => 'auth', 'advancedUser'], function() {
 });
 
 // WS Bridge
-Route::post('storeBridge/EXGRUPOS.csv', 'WebServiceController@groups')->name('webService.groups');
-Route::post('storeBridge/EXSUBGRU.csv', 'WebServiceController@subGroups')->name('webService.subGroups');
-Route::post('storeBridge/EXART.csv', 'WebServiceController@articles')->name('webService.articles');
-Route::post('storeBridge/MOVIMIENTOS.csv', 'WebServiceController@movements')->name('webService.movements');
+Route::group(['middleware' => 'ws'], function() {
+	Route::post( 'storeBridge/EXGRUPOS.csv', 'WebServiceController@groups' )->name( 'webService.groups' );
+	Route::post( 'storeBridge/EXSUBGRU.csv', 'WebServiceController@subGroups' )->name( 'webService.subGroups' );
+	Route::post( 'storeBridge/EXART.csv', 'WebServiceController@articles' )->name( 'webService.articles' );
+	Route::post( 'storeBridge/MOVIMIENTOS.csv', 'WebServiceController@movements' )->name( 'webService.movements' );
+});

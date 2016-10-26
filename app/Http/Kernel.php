@@ -33,6 +33,10 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
+	    'ws' => [
+	        \App\Http\Middleware\WSVerifyAccessKey::class,
+	    ],
+
         'superAdmin' => [
 	        'web',
 	        'auth',
