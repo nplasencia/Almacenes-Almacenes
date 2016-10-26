@@ -132,6 +132,6 @@ class UserController extends Controller
 	{
 		$user = $this->userRepository->deleteById($id);
 		session()->flash('success', trans('pages/user.delete_success',['Name' => $user->completeName]));
-		return $this->resume();
+		return back();
 	}
 }

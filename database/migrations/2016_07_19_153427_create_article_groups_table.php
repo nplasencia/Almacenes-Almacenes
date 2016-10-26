@@ -16,7 +16,7 @@ class CreateArticleGroupsTable extends Migration
     {
 	    Schema::create(ArticleGroupContract::TABLE_NAME, function (Blueprint $table) {
 		    $table->increments(ArticleGroupContract::ID);
-		    $table->string(ArticleGroupContract::CODE,16);
+		    $table->string(ArticleGroupContract::CODE,16)->unique();
 		    $table->string(ArticleGroupContract::NAME);
 	    });
     }

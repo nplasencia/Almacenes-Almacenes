@@ -4,6 +4,7 @@ namespace App\Entities;
 
 use App\Commons\ArticleGroupContract;
 
+use App\Commons\ArticleSubGroupContract;
 use Illuminate\Database\Eloquent\Model;
 
 class ArticleGroup extends Model
@@ -14,7 +15,7 @@ class ArticleGroup extends Model
 
 	public function subgroups()
 	{
-		return $this->hasMany(ArticleSubGroup::class);
+		return $this->hasMany(ArticleSubGroup::class, ArticleSubGroupContract::GROUP_ID);
 	}
 
 }

@@ -152,3 +152,9 @@ Route::group(['middleware' => 'auth', 'advancedUser'], function() {
 	Route::post('articlesNew/ajax/{lot}', 'ArticlesNewController@getNewArticlesByLot')->name('articlesNew.newArticles');
 
 });
+
+// WS Bridge
+Route::post('storeBridge/EXGRUPOS.csv', 'WebServiceController@groups')->name('webService.groups');
+Route::post('storeBridge/EXSUBGRU.csv', 'WebServiceController@subGroups')->name('webService.subGroups');
+Route::post('storeBridge/EXART.csv', 'WebServiceController@articles')->name('webService.articles');
+Route::post('storeBridge/MOVIMIENTOS.csv', 'WebServiceController@movements')->name('webService.movements');
