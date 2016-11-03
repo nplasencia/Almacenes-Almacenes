@@ -5,11 +5,15 @@ namespace App\Repositories;
 use App\Commons\ArticleContract;
 use App\Commons\ArticleGroupContract;
 use App\Commons\ArticleSubGroupContract;
+use App\Commons\CenterContract;
+use App\Commons\Globals;
 use App\Commons\PalletArticleContract;
 use App\Commons\PalletContract;
 use App\Commons\StoreContract;
 use App\Entities\Article;
 use App\Entities\ArticleSubGroup;
+use App\Entities\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ArticleRepository extends BaseRepository
@@ -75,6 +79,23 @@ class ArticleRepository extends BaseRepository
 		         ->select(DB::raw('pallet_articles.id as id, articles.name as name, pallet_articles.lot as lot, pallet_articles.number as number, (pallet_articles.number * pallet_articles.weight) as totalWeight,
 		                           stores.name as storeName, pallets.location as location, pallets.position as position, pallet_articles.expiration as expiration,
 		                           pallet_articles.created_at as created_at'))->limit($limit)->get();
+	}
+
+	public function getNextToExpireToUserEmail(User $user)
+	{
+		$now = Carbon::now();
+		$now->addDays($user->expired_days);
+		$sql = $this->generateComplexSql()->join(CenterContract::TABLE_NAME, 'stores.center_id', '=', 'centers.id');
+		if ($user->center_id != null) {
+			$sql = $sql->where(StoreContract::CENTER_ID, $user->center_id);
+		}
+		return $sql->where(PalletArticleContract::EXPIRATION,'<=',$now->format(Globals::CARBON_SQL_FORMAT))
+		            ->orderBy('centers.id', 'ASC')
+		            ->orderBy('pallet_articles.created_at', 'DESC')
+		            ->orderBy('articles.name', 'ASC')
+		            ->select(DB::raw('centers.name as centerName, pallet_articles.id as id, articles.name as name, pallet_articles.lot as lot, pallet_articles.number as number, (pallet_articles.number * pallet_articles.weight) as totalWeight,
+		                           stores.name as storeName, pallets.location as location, pallets.position as position, pallet_articles.expiration as expiration,
+		                           pallet_articles.created_at as created_at'))->get();
 	}
 
 	public function getLastInserted($center_id, $limit)

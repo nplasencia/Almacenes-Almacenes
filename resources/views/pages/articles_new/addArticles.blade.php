@@ -181,13 +181,16 @@
                     newArticleSelect.find('option').remove();
                     newArticleSelect.append('<option value="" disabled selected>Selecciona la mercancía ...</option>');
                     $.each(response, function (i, v) {
-                        newArticleSelect.append('<option data-max="' + v[2] + '" value="' + v[0] + '">' + v[1] + '</option>');
+                        newArticleSelect.append('<option data-expiration="' + v[3] + '" data-max="' + v[2] + '" value="' + v[0] + '">' + v[1] + '</option>');
                     });
                     newArticleSelect.prop('disabled', false);
+                    $('#numberInput').val('');
                     $('#numberInput').prop('disabled', 'disabled');
                     $('#numberInput').prop('placeholder', 'Selecciona primero la mercancía');
+                    $('#weightInput').val('');
                     $('#weightInput').prop('disabled', 'disabled');
                     $('#weightInput').prop('placeholder', 'Selecciona primero la mercancía');
+                    $('#expiration').val('');
                     $('#expiration').prop('disabled', 'disabled');
                     $('#expiration').prop('placeholder', 'Selecciona primero la mercancía');
                 }).fail(function (response) {
@@ -202,6 +205,7 @@
 
                 var numberInput = $('#numberInput');
                 var max = $(this).find(':selected').data('max');
+                var expiration = $(this).find(':selected').data('expiration');
                 numberInput.prop('disabled', false);
                 numberInput.removeAttr('placeholder');
                 numberInput.attr('max', max);
@@ -214,7 +218,7 @@
                 var expirationDate = $('#expiration');
                 expirationDate.prop('disabled', false);
                 expirationDate.removeAttr('placeholder');
-                expirationDate.val('');
+                expirationDate.val(expiration);
             });
 
             $('#numberInput').change(function (e) {

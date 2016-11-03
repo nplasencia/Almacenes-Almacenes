@@ -90,11 +90,15 @@ $factory->define(PalletArticle::class, function (Faker\Generator $faker) {
 	];
 });
 
-$factory->define(ArticleNew::class, function () {
+$factory->define(ArticleNew::class, function (Faker\Generator $faker) {
 
 	return [
 		ArticleNewContract::ARTICLE_ID => random_int(1, 476),
+		ArticleNewContract::STORE_ID   => random_int(1, 100),
+		ArticleNewContract::DOC        => 'B/ '.random_int(1000, 9999),
 		ArticleNewContract::LOT        => 'L'.random_int(1000, 9999),
 		ArticleNewContract::TOTAL      => random_int(1,100),
+		ArticleNewContract::DATE       => $faker->dateTimeBetween('-2 months', '+0 days'),
+		ArticleNewContract::EXPIRATION => $faker->dateTimeBetween('+0 days', '+2 years'),
 	];
 });

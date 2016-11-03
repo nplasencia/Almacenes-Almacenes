@@ -38,13 +38,16 @@ class UserProfileController extends Controller
     public function resume(Guard $auth)
     {
         $user = $auth->user();
-        return view('user_profile', ['title' => $user->completeName, 'icon' => $this->icon, 'user' => $user]);
+	    $sendEmailOptions = [null => 'Nunca', 1 => 'Cada día', 7 => 'Cada semana', 15 => 'Cada 15 días', 30 => 'Cada 30 días'];
+	    $notificationOptions = [7 => '1 semana antes', 15 => '15 días antes', 30 => '1 mes antes', 60 => '2 meses antes'];
+        return view('user_profile', ['title' => $user->completeName, 'icon' => $this->icon, 'user' => $user,
+                                     'sendEmailOptions' => $sendEmailOptions, 'notificationOptions' => $notificationOptions]);
     }
 
     public function update(Request $request, Guard $auth)
     {
         $this->userProfileValidation($request);
-        $this->userProfileRepository->update($auth, $request->get('name'), $request->get('surname'), $request->get('telephone'), $request->get('email'));
+        $this->userProfileRepository->update($auth, $request);
         if ($request->file('image') !== null) {
             $file = $request->file('image');
             Storage::disk('public')->put('avatar/'.$auth->user()->id.'.jpg', File::get($file));

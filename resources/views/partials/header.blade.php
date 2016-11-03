@@ -28,10 +28,9 @@
                     <i class="fa fa-envelope"></i>
                     <span class="label label-warning">5</span>
                 </a>
-                <a data-placement="bottom" data-original-title="@lang('general.messages')" href="#" data-toggle="tooltip" class="btn btn-default btn-sm">
-                    <i class="fa fa-comments"></i>
-                    <span class="label label-danger">4</span>
-                </a>
+
+                @include('partials.alert_messages')
+
                 <a data-toggle="modal" data-original-title="@lang('general.help')" data-placement="bottom" class="btn btn-default btn-sm" href="#helpModal">
                     <i class="fa fa-question"></i>
                 </a>

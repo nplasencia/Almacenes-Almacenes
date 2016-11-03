@@ -7,10 +7,12 @@ use App\Commons\ArticleGroupContract;
 use App\Commons\ArticleNewContract;
 use App\Commons\ArticleSubGroupContract;
 use App\Commons\Globals;
+use App\Commons\StoreContract;
 use App\Entities\Article;
 use App\Entities\ArticleGroup;
 use App\Entities\ArticleNew;
 use App\Entities\ArticleSubGroup;
+use App\Entities\Store;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -219,22 +221,53 @@ class WebServiceController extends Controller
 
 		$created = [];
 		$failed  = [];
+		$abonos  = [];
 
 		foreach ($request->all() as $item) {
 
 			if ($item['TIPODOC'] == 'Alb Com') {
 
-				if ($item['LOTE'] == '') {
+				$selectedArticle = Article::where(ArticleContract::CODE, $item['ART'])->firstOrFail();
+				$selectedStore = Store::where(StoreContract::NAME, $item['ALMACEN'])->firstOrFail();
+
+				if ($item['CANTIDAD'] < 0) {
+
+					// Es posible que ya hayamos insertado la compra positiva, la buscamos.
+					$insertedArticle = ArticleNew::where(ArticleNewContract::ARTICLE_ID, $selectedArticle->id)->
+												   where(ArticleNewContract::STORE_ID, $selectedStore->id)->
+												   where(ArticleNewContract::DOC, $item['DOC'])->first();
+					if (isset($insertedArticle) && $insertedArticle != null) {
+						if ($insertedArticle->total == ($item['CANTIDAD']*(-1))) {
+							$insertedArticle->forceDelete();
+						} else {
+							$insertedArticle->total = $insertedArticle->total + $item['CANTIDAD'];
+							$insertedArticle->save();
+						}
+
+					} else {
+						$abonos[$item['DOC']][$item['ART']] = $item;
+					}
 					continue;
 				}
 
 				try {
-					$selectedArticle = Article::where(ArticleContract::CODE, $item['ART'])->firstOrFail();
+
+					if (isset($abonos[$item['DOC']][$item['ART']])) {
+						$itemAbono = $abonos[$item['DOC']][$item['ART']];
+						$item['CANTIDAD'] = $item['CANTIDAD'] + $itemAbono['CANTIDAD'];
+					}
+
+					if ($item['CANTIDAD'] == 0) {
+						continue;
+					}
 
 					$newArticle = ArticleNew::create( [
 						ArticleNewContract::ARTICLE_ID => $selectedArticle->id,
+						ArticleNewContract::STORE_ID   => $selectedStore->id,
+						ArticleNewContract::DOC        => $item['DOC'],
 						ArticleNewContract::LOT        => $item['LOTE'],
 						ArticleNewContract::TOTAL      => $item['CANTIDAD'],
+						ArticleNewContract::DATE       => Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['FECHA'])->format(Globals::CARBON_SQL_FORMAT),
 						ArticleNewContract::EXPIRATION => $item['CADUCIDAD'] != null ?
 							Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['CADUCIDAD'])->format(Globals::CARBON_SQL_FORMAT) : null,
 					] );
@@ -244,7 +277,7 @@ class WebServiceController extends Controller
 					$failed[] = [ "{$item['ART']}-{$item['LOTE']}", 'This item exists in the database' ];
 				} catch ( Exception $e ) {
 					Log::info( "[WebService] Error creating newArticle: {$e->getMessage()}" );
-					$failed[] = [ "{$item['ART']}-{$item['LOTE']}", $e->getMessage() ];
+					$failed[] = [ "{$item['ART']}-{$item['LOTE']}", $e ];
 				}
 			}
 		}

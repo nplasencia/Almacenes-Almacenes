@@ -77,6 +77,28 @@
                         </a>
                     </div>
 
+                    <div class="form-group">
+                        <label class="control-label col-lg-4" for="sendEmail">@lang('pages/user_profile.send_email')</label>
+                        <div class=" col-lg-4">
+                            <select class="form-control" name="sendEmail" id="sendEmail">
+                                @foreach($sendEmailOptions as $value => $description)
+                                    <option value="{{ $value }}" @if($user->email_each_days == $value) selected @endif>{{ $description }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-4" for="notification">@lang('pages/user_profile.notification')</label>
+                        <div class=" col-lg-4">
+                            <select class="form-control" name="notification" id="notification">
+                                @foreach($notificationOptions as $value => $description)
+                                    <option value="{{ $value }}" @if($user->expired_days == $value) selected @endif>{{ $description }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-actions no-margin-bottom text-center col-lg-12">
                         <a class="btn btn-default btn-sm" href="{{ route('user_profile.resume') }}">@lang('general.cancel')</a>
                         <input type="submit" value="@lang('general.update')" class="btn btn-primary">

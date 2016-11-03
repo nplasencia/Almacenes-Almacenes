@@ -122,7 +122,8 @@ class ArticlesNewController extends Controller
 		if ($request->ajax()) {
 			$ajaxResponse = array();
 			foreach ($newArticles as $newArticle) {
-				$ajaxResponse[] = [$newArticle->id, $newArticle->article->name, $newArticle->total];
+				$expirationDate = Carbon::createFromFormat( Globals::CARBON_SQL_FORMAT, $newArticle->expiration)->format(Globals::CARBON_VIEW_FORMAT);
+				$ajaxResponse[] = [$newArticle->id, $newArticle->article->name, $newArticle->total, $expirationDate];
 			}
 			return response()->json($ajaxResponse);
 		}

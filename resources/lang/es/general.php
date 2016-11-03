@@ -26,7 +26,7 @@ return [
     'centerSelect'     => 'Centro de trabajo:',
     'centerSelectText' => 'Seleccione un centro de trabajo',
     'fullScreen'       => 'Pantalla completa',
-    'messages'         => 'Mensajes',
+    'alert_message'    => 'Mercancía sin colocar: :ItemsCount',
     'help'             => 'Ayuda',
     'logout'           => 'Desconectar',
     'showHideMenu'     => 'Mostrar/ocultar menú',

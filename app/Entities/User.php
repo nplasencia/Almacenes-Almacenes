@@ -2,17 +2,25 @@
 
 namespace App\Entities;
 
+use App\Commons\Globals;
 use App\Commons\Roles;
 use App\Commons\UserContract;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Support\Facades\Storage;
 
 class User extends AuthUser
 {
 
-    protected $fillable = [ UserContract::NAME, UserContract::SURNAME, UserContract::EMAIL, UserContract::ROLE, UserContract::TELEPHONE, UserContract::CENTER_ID ];
+    protected $fillable = [ UserContract::NAME, UserContract::SURNAME, UserContract::EMAIL, UserContract::ROLE, UserContract::TELEPHONE, UserContract::CENTER_ID,
+                            UserContract::EMAIL_EACH, UserContract::EXPIRED_DAYS];
 
     protected $hidden = [ UserContract::PASSWORD, 'remember_token' ];
+
+	public function center()
+	{
+		return $this->belongsTo(Center::class);
+	}
 
 	protected $hierarchy = [
 		Roles::SUPER_ADMIN => 3,
@@ -56,6 +64,11 @@ class User extends AuthUser
 	public function getCompleteNameAttribute()
     {
         return "{$this->name} {$this->surname}";
+    }
+
+    public function getLastCarbonEmailAttribute()
+    {
+	    return Carbon::createFromFormat('Y-m-d H:i:s', $this->last_email);
     }
 
     public function hasProfileImage()
