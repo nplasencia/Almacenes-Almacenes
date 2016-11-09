@@ -24,10 +24,6 @@
                 </a>
             </div>
             <div class="btn-group">
-                <a data-placement="bottom" data-original-title="E-mail" data-toggle="tooltip" class="btn btn-default btn-sm">
-                    <i class="fa fa-envelope"></i>
-                    <span class="label label-warning">5</span>
-                </a>
 
                 @include('partials.alert_messages')
 
@@ -36,7 +32,12 @@
                 </a>
             </div>
             <div class="btn-group">
-                <a href="{{ route('logout') }}" data-toggle="tooltip" data-original-title="@lang('general.logout')" data-placement="bottom" class="btn btn-metis-1 btn-sm">
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+
+                <a href="{{ url('/logout') }}" data-toggle="tooltip" data-original-title="@lang('general.logout')" data-placement="bottom" class="btn btn-metis-1 btn-sm"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-power-off"></i>
                 </a>
             </div>
@@ -65,11 +66,6 @@
                 @can('admin')
                     <li>
                         <a href="{{ route('store.create') }}">@lang('pages/store.newButton')</a>
-                    </li>
-                @endcan
-                @can('advancedUser')
-                    <li>
-                        <a href="{{ route('articlesNew.addPallet') }}">@lang('pages/article_new.title')</a>
                     </li>
                 @endcan
             </ul><!-- /.nav -->

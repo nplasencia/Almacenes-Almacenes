@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'reset_subject'   => '[SGA] Tu enlace para restablecer tu contraseña',
-    'reset_text'      => 'Pulsa en el siguiente link para restablecer tu contraseña:',
-	'next_to_subject' => '[SGA] Artículos próximos a caducar',
+    'reset_subject'    => '[SGA] Tu enlace para restablecer tu contraseña',
+
+	'new_user_subject' => '[SGA] Bienvenido al nuevo software de gestión de almacenes de Alcruz Canarias',
+
+	'next_to_subject'  => '[SGA] Artículos próximos a caducar',
 ];

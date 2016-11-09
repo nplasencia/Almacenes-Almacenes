@@ -7,6 +7,7 @@ use App\Commons\UserContract;
 use App\Entities\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository extends BaseRepository
 {
@@ -20,10 +21,13 @@ class UserRepository extends BaseRepository
     	if (!isset($data[UserContract::CENTER_ID])) {
 		    $data[UserContract::CENTER_ID] = $auth->user()->center_id;
 	    }
+	    $pass = str_random(10);
 	    $user = new User($data);
-	    $user->password = Hash::make(str_random(10));
+	    $user->password = Hash::make($pass);
 	    $user->remember_token = str_random(10);
 	    $user->save();
+	    $user->password = $pass;
+	    return $user;
     }
 
     public function update(Guard $auth, $id, array $data)

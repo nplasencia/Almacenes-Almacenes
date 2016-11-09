@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Commons\UserContract;
 use App\Entities\User;
+use App\Mail\NewUser as NewUserEmail;
 use App\Repositories\CenterRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Contracts\Auth\Guard;
@@ -94,12 +95,14 @@ class UserController extends Controller
 
 	public function store(Guard $auth, Request $request)
 	{
+
 		$this->userValidation($request);
+
 		try {
 			$user = $this->userRepository->store($auth, $request->only([UserContract::NAME, UserContract::SURNAME, UserContract::ROLE,
 																        UserContract::CENTER_ID, UserContract::TELEPHONE, UserContract::EMAIL]));
-
-			$this->sendEmailToNewUser($user);
+			//$user->notify(new NewUser($user));
+			Mail::to($user->email, $user->completeName)->send(new NewUserEmail($user));
 			session()->flash('success', trans('pages/user.store_success',['Name' => $user->completeName]));
 		} catch (\PDOException $exception) {
 			session()->flash('info', trans('pages/user.store_exists', ['Name' => "{$request->get('name')} {$request->get('surname')}"]));
@@ -132,6 +135,6 @@ class UserController extends Controller
 	{
 		$user = $this->userRepository->deleteById($id);
 		session()->flash('success', trans('pages/user.delete_success',['Name' => $user->completeName]));
-		return back();
+		return $this->resume();
 	}
 }

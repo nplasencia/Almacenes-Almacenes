@@ -3,7 +3,7 @@
 @section('content')
     <div class="tab-content">
         <div id="password_reset" class="tab-pane active">
-            <form method="POST" action="{{ route('passwordReset') }}">
+            <form method="POST" action="{{ url('password/reset') }}">
                 {!! csrf_field() !!}
                 <input type="hidden" name="token" value="{{ $token }}">
                 @include('partials.errors')

@@ -10,6 +10,7 @@ return [
     'telephone'    => 'Teléfono',
     'email'        => 'E-mail',
 	'new_button'   => 'Nuevo usuario',
+	'center'       => 'Centro de trabajo',
 
 	'select_role'   => 'Selecciona el tipo de usuario',
     'select_center' => 'Selecciona el centro del usuario',
