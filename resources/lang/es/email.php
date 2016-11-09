@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'reset_subject'   => 'Tu enlace para restablecer tu contraseña',
+    'reset_subject'   => '[SGA] Tu enlace para restablecer tu contraseña',
     'reset_text'      => 'Pulsa en el siguiente link para restablecer tu contraseña:',
 	'next_to_subject' => '[SGA] Artículos próximos a caducar',
 ];

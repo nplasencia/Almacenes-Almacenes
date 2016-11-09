@@ -22,7 +22,7 @@
             </form>
         </div>
         <div id="forgot" class="tab-pane">
-            <form method="POST" action="{{ route('passwordEmail') }}">
+            <form method="POST" action="{{ url('/password/email') }}">
                 {!! csrf_field() !!}
                 @include('partials.errors')
                 <p class="text-muted text-center">

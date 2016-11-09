@@ -23,6 +23,17 @@
         @yield('content')
     </div>
 
+    <div class="Footer text-center" style="border-top: 0px;">
+        <p style="margin-top: -90px;">
+            <a href="http://www.auret.es" target="_blank">
+                <img src="{{ asset('assets/img/auret_logo.png') }}" alt="Auret Logo">
+            </a>
+        </p>
+        <p style="margin-top: -20px;">
+            &copy; {{ date('Y') }}. All rights reserved.
+        </p>
+    </div>
+
 <!-- JavaScripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

@@ -2,15 +2,18 @@
 
 namespace App\Entities;
 
-use App\Commons\Globals;
 use App\Commons\Roles;
 use App\Commons\UserContract;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as AuthUser;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\ResetPassword as ResetPasswordNotification;
 
 class User extends AuthUser
 {
+
+	use Notifiable;
 
     protected $fillable = [ UserContract::NAME, UserContract::SURNAME, UserContract::EMAIL, UserContract::ROLE, UserContract::TELEPHONE, UserContract::CENTER_ID,
                             UserContract::EMAIL_EACH, UserContract::EXPIRED_DAYS];
@@ -79,4 +82,15 @@ class User extends AuthUser
             return false;
         }
     }
+
+	/**
+	 * Send the password reset notification.
+	 *
+	 * @param  string  $token
+	 * @return void
+	 */
+	public function sendPasswordResetNotification($token)
+	{
+		$this->notify(new ResetPasswordNotification($token));
+	}
 }

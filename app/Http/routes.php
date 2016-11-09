@@ -13,15 +13,17 @@
 
 // Authentication routes...
 
-Route::get ('login', 'Auth\AuthController@getLogin')->name('login');
-Route::post('login', 'Auth\AuthController@postLogin');
+Route::auth();
+/*Route::get ('login', 'Auth\LoginController@login')->name('login');
+Route::post('login', 'Auth\LoginController@postLogin');
 
-Route::get ('logout', 'Auth\AuthController@getLogout')->name('logout');
+Route::get ('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::post ('password/email', 'Auth\PasswordController@postEmail')->name('passwordEmail');
+Route::post ('password/email', 'Auth\ForgotPasswordController@postEmail')->name('passwordEmail');
 
-Route::get ('password/reset/{token}', 'Auth\PasswordController@getReset');
-Route::post('password/reset', 'Auth\PasswordController@postReset')->name('passwordReset');
+Route::get ('password/reset/{token}', 'Auth\ResetPasswordController@getReset');
+Route::post('password/reset', 'Auth\ResetPasswordController@postReset')->name('passwordReset');*/
 
 Route::group(['middleware' => 'auth'], function() {
 
