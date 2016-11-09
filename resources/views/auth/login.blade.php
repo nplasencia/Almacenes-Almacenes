@@ -7,6 +7,7 @@
             <form method="POST" action="{{ route('login') }}" role="form">
                 {!! csrf_field() !!}
 
+                @include('partials.msg_success')
                 @include('partials.errors')
                 <p class="text-muted text-center">
                     @lang('auth.login_title')

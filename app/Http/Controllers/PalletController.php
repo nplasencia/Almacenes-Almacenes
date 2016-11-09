@@ -78,7 +78,11 @@ class PalletController extends Controller
 			}
 			return response()->json($ajaxResponse);
 		}
+		$ajaxResponse = array();
+		foreach ($locations as $location => $values) {
+			$ajaxResponse[] = $location;
+		}
 
-		dd($locations);
+		dd($ajaxResponse);
 	}
 }

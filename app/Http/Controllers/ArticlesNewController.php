@@ -53,7 +53,7 @@ class ArticlesNewController extends Controller
 
 	public function newPallet()
 	{
-		$stores = $this->storeRepository->getAllByCenter(session('center_id'));
+		$stores = $this->storeRepository->getAllWithoutPickingByCenter(session('center_id'));
 		$palletTypes = PalletType::all();
 		return view('pages/articles_new.newPallet', ['title' => trans($this->title), 'icon' => $this->icon, 'stores' => $stores, 'palletTypes' => $palletTypes]);
 	}

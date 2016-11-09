@@ -25,7 +25,7 @@ class CreatePalletsTable extends Migration
             $table->timestamps();
 
             $table->foreign(PalletContract::STORE_ID)->references(StoreContract::ID)->on(StoreContract::TABLE_NAME)->onDelete('cascade');
-            $table->unique( [PalletContract::STORE_ID, PalletContract::LOCATION, PalletContract::POSITION] );
+            $table->unique( [PalletContract::STORE_ID, PalletContract::LOCATION, PalletContract::POSITION, 'deleted_at'] );
 
         });
     }

@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 	    //$this->call(ArticleGroupTableSeeder::class);
 	    //$this->call(ArticleSubGroupTableSeeder::class);
 	    //$this->call(ArticleTableSeeder::class);
-	    //$this->call(PalletTypeTableSeeder::class);
+	    $this->call(PalletTypeTableSeeder::class);
 	    //$this->call(PalletTableSeeder::class);
 	    //$this->call(PalletArticleTableSeeder::class);
 	    //$this->call(ArticleNewTableSeeder::class);

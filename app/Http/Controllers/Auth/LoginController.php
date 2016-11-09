@@ -23,5 +23,28 @@ class LoginController extends Controller
 	*/
 	use AuthenticatesUsers;
 
-	protected $redirectTo = 'dashboard';
+	protected $redirectTo = '/';
+
+	/**
+	 * Send the response after the user was authenticated.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	protected function sendLoginResponse(Request $request)
+	{
+		$request->session()->regenerate();
+
+		$user = Auth::user();
+		session( [ 'center_id' => 1 ] );
+
+		if (isset($user->center_id)) {
+			session( [ 'center_id' => $user->center_id ] );
+		}
+
+		$this->clearLoginAttempts($request);
+
+		return $this->authenticated($request, $this->guard()->user())
+			?: redirect()->intended($this->redirectPath());
+	}
 }

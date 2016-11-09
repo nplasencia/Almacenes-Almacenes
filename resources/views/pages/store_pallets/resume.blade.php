@@ -104,6 +104,11 @@
     <form id="formLocations" method="POST" action="{{ route('storePallet.palletLocations', ':store_id') }}">
         {{ csrf_field() }}
     </form>
+
+    <form id="formArticleLocations" method="POST" action="{{ route('palletArticle.articleLocations', ':store_id') }}">
+        {{ csrf_field() }}
+        <input type="hidden" value="" name="store_id">
+    </form>
 @stop
 
 @push('modals')
@@ -125,7 +130,7 @@
                             <label class="control-label col-lg-4" for="name">@lang('pages/pallet_article.storeName')</label>
                             <div class="col-lg-6">
                                 <select data-placeholder="@lang('pages/pallet_article.selectStore')" class="form-control" name="store_id" id="storePalletSelect" required>
-                                    <option value="" selected></option>
+                                    <option value="" disabled selected></option>
                                     @foreach($stores as $store)
                                         <option value="{{ $store->id }}">{{ $store->name }}</option>
                                     @endforeach

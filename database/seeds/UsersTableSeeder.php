@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $this->createSuperAdmin();
-        factory(User::class, 100)->create();
+        //factory(User::class, 100)->create();
     }
 
     private function createSuperAdmin()

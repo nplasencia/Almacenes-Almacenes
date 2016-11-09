@@ -49,7 +49,7 @@ class ResetPassword extends Notification
 	        ->view('auth.emails.password')
 	        ->line('Estás recibiendo este email porque hemos registrado una solicitud de reinicio de tu contraseña.')
 	        ->action('Reiniciar contraseña', url('password/reset', $this->token))
-	        ->line('Si nos has solicitado reiniciar tu contraseña, ignora este mensaje.');
+	        ->line('Si no has solicitado reiniciar tu contraseña, ignora este mensaje.');
     }
 
     /**

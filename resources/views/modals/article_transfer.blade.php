@@ -1,8 +1,3 @@
-<form id="formArticleLocations" method="POST" action="{{ route('palletArticle.articleLocations', ':store_id') }}">
-    {{ csrf_field() }}
-    <input type="hidden" value="" name="store_id">
-</form>
-
 <div id="transferModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -18,7 +13,7 @@
                         <label class="control-label col-lg-4" for="name">@lang('pages/pallet_article.storeName')</label>
                         <div class="col-lg-6">
                             <select data-placeholder="@lang('pages/pallet_article.selectStore')" class="form-control" name="store_id" id="storeSelect" required>
-                                <option value="" selected></option>
+                                <option value="" disabled selected></option>
                                 @foreach($stores as $store)
                                     <option value="{{ $store->id }}">{{ $store->name }}</option>
                                 @endforeach
@@ -103,7 +98,7 @@
 
             $('#storeSelect').change(function(e) {
                 e.preventDefault();
-                var form = $('#formLocations');
+                var form = $('#formArticleLocations');
                 var locationSelect = $('#locationSelect');
 
                 var action = form.attr('action').replace(':store_id', $(this).val());

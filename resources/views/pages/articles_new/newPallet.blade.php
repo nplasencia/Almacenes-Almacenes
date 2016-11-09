@@ -25,7 +25,7 @@
                             <label class="control-label col-lg-4" for="store_id">@lang('pages/pallet_article.storeName')</label>
                             <div class="col-lg-4">
                                 <select data-placeholder="@lang('pages/pallet_article.selectStores')" class="form-control" name="store_id" id="storeSelect" required>
-                                    <option value=""></option>
+                                    <option value="" disabled selected></option>
                                     @foreach($stores as $store)
                                         <option value="{{ $store->id }}"
                                             @if( old('store_id') == $store->id ) selected="selected" @endif

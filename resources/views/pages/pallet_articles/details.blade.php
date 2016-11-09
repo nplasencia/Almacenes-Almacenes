@@ -77,6 +77,11 @@
 @stop
 @push('modals')
 
+    <form id="formArticleLocations" method="POST" action="{{ route('palletArticle.articleLocations', ':store_id') }}">
+        {{ csrf_field() }}
+        <input type="hidden" value="" name="store_id">
+    </form>
+
     @include('modals.article_transfer')
 
 @endpush

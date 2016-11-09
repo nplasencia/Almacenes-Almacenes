@@ -43,7 +43,7 @@ class ArticleNewRepository extends BaseRepository
 		$query = DB::table(ArticleNewContract::TABLE_NAME)
 			       ->join(StoreContract::TABLE_NAME, 'articles_new.store_id', '=', 'stores.id')
 			       ->join(CenterContract::TABLE_NAME, 'stores.center_id', '=', 'centers.id')
-				   ->select('articles_new.*');
+				   ->select('articles_new.*')->where('articles_new.deleted_at', null);
 		if ($centerId != null) {
 			$query = $query->where('centers.id', $centerId);
 		}

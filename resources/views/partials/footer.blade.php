@@ -1,5 +1,10 @@
 <footer class="Footer bg-dark dker">
-    <p>2016 &copy; Nauzet Plasencia - Auret </p>
+    <p style="margin-top: -12px;">
+        <a href="http://www.auret.es" target="_blank">
+            <img src="{{ asset('assets/img/auret_logo.png') }}" alt="Auret Logo" width="130px" >
+        </a>
+        &copy; {{ date('Y') }} All Rights Reserved
+    </p>
 </footer><!-- /#footer -->
 
 <!-- #helpModal -->
