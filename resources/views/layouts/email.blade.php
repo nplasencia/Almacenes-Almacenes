@@ -12,6 +12,7 @@
                 width: 100% !important;
             }
         }
+        @stack('styles')
     </style>
 </head>
 
@@ -57,6 +58,7 @@ $style = [
         'button--green' => 'background-color: #22BC66;',
         'button--red' => 'background-color: #dc4d2f;',
         'button--blue' => 'background-color: #3869D4;',
+
 ];
 ?>
 

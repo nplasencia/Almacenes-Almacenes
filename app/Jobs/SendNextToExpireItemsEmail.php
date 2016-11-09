@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Commons\Globals;
 use App\Commons\UserContract;
 use App\Entities\User;
+use App\Mail\NextToExpire;
 use App\Repositories\ArticleRepository;
 use Carbon\Carbon;
 use Illuminate\Queue\SerializesModels;
@@ -41,7 +42,7 @@ class SendNextToExpireItemsEmail extends Job implements ShouldQueue
 			    if (sizeof($nextToExpireArticles) > 0) {
 
 				    // Enviamos email y almacenamos dicha info en el usuario
-				    $this->sendEmail( $user, $nextToExpireArticles );
+				    Mail::to($user->email, $user->completeName)->send(new NextToExpire($nextToExpireArticles));
 
 				    // Actualizamos el día de envío del email
 				    $user->last_email = $now->format( Globals::CARBON_SQL_FORMAT . ' H:i:s' );
@@ -57,16 +58,9 @@ class SendNextToExpireItemsEmail extends Job implements ShouldQueue
 	    $nextToExpireArticles = $this->articleRepository->getNextToExpireToUserEmail($user);
 
 	    foreach ($nextToExpireArticles as $article) {
+		    $article->expiration = Carbon::createFromFormat( Globals::CARBON_SQL_FORMAT, $article->expiration)->format(Globals::CARBON_VIEW_FORMAT);
 		    $res[$article->centerName][]=$article;
 	    }
 	    return $res;
-    }
-
-    private function sendEmail(User $user, $nextToExpireArticles)
-    {
-	    Mail::send('emails.next_to_expire', ['user' => $user, 'centerArticles' => $nextToExpireArticles], function ($m) use ($user){
-		    $m->from('no-reply.alcruz@auret.es', 'Alcruz Canarias Software');
-		    $m->to($user->email)->subject(trans('email.next_to_subject'));
-	    });
     }
 }

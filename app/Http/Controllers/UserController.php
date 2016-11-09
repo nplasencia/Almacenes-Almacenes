@@ -69,17 +69,6 @@ class UserController extends Controller
                 ->make(true);
 	}
 
-	private function sendEmailToNewUser(User $user)
-	{
-		Mail::send('emails.new_user', ['user' => $user], function ($m) use ($user) {
-			$m->from('no-reply.alcruz@auret.es', 'Alcruz Canarias Software');
-
-			$m->to($user->email, $user->name)->subject('[Almacenes] Has sido registrado correctamente');
-		});
-
-		return response();
-	}
-
     public function resume()
     {
 	    $users = $this->userRepository->getAllPaginated($this->defaultPagination);
