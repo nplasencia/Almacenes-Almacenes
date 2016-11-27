@@ -33,8 +33,8 @@ class SendNextToExpireItemsEmail extends Job implements ShouldQueue
     {
         $users = User::where(UserContract::EMAIL_EACH, '<>', null)->get();
 	    foreach ($users as $user) {
-		    $nextEmail = $user->lastCarbonEmail->addDays($user->email_each_days)->setTime(7, 0, 0);
-		    $now = Carbon::now()->setTime(7, 0, 0);
+		    $nextEmail = $user->lastCarbonEmail->addDays($user->email_each_days);
+		    $now = Carbon::now();
 
 		    if ($now->gt($nextEmail)) {
 		        $nextToExpireArticles = $this->nextToExpireArticles($user);
