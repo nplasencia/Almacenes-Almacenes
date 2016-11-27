@@ -7,11 +7,13 @@ use App\Commons\ArticleGroupContract;
 use App\Commons\ArticleNewContract;
 use App\Commons\ArticleSubGroupContract;
 use App\Commons\Globals;
+use App\Commons\PalletArticleContract;
 use App\Commons\StoreContract;
 use App\Entities\Article;
 use App\Entities\ArticleGroup;
 use App\Entities\ArticleNew;
 use App\Entities\ArticleSubGroup;
+use App\Entities\PalletArticle;
 use App\Entities\Store;
 use Carbon\Carbon;
 use Exception;
@@ -201,7 +203,7 @@ class WebServiceController extends Controller
 
 	public function movements(Request $request)
 	{
-		ini_set('max_execution_time', 60);
+		ini_set('max_execution_time', 500);
 
 		$rules = [
 			'ALMACEN'     => 'required',
@@ -220,6 +222,8 @@ class WebServiceController extends Controller
 		}*/
 
 		$created = [];
+		$deleted = [];
+		$updated = [];
 		$failed  = [];
 		$abonos  = [];
 
@@ -279,10 +283,43 @@ class WebServiceController extends Controller
 					Log::info( "[WebService] Error creating newArticle: {$e->getMessage()}" );
 					$failed[] = [ "{$item['ART']}-{$item['LOTE']}", $e ];
 				}
+			} else if ($item['TIPODOC'] == 'Alb Vta') {
+				$selectedArticle = Article::where(ArticleContract::CODE, $item['ART'])->firstOrFail();
+				$selectedStore = Store::where(StoreContract::NAME, $item['ALMACEN'])->first();
+				if ($selectedStore == null){
+					continue;
+				}
+				$pickingStore = Store::where(StoreContract::CENTER_ID, $selectedStore->center_id)->where(StoreContract::NAME, 'Picking')->with('pallets.articles')->firstOrFail();
+
+				if ($item['CANTIDAD'] > 0) {
+					//TODO: ¿Qué hacemos con esto? Posiblemente tratarlo como un articleNew
+					continue;
+				}
+
+				foreach ($pickingStore->pallets as $pallet) {
+					foreach ($pallet->articles as $article) {
+						if ($article->id == $selectedArticle->id && $article->pivot->lot == $item['LOTE']) {
+							$palletArticleId = $article->pivot->id;
+
+							if ($item['CANTIDAD']*(-1) == $article->pivot->number) {
+								// Eliminamos la entrada en pallet_articles
+								PalletArticle::destroy($palletArticleId);
+								$deleted[] = $palletArticleId;
+							} else {
+								// Actualizamos la entrada en pallet_articles
+								$palletArticle = PalletArticle::where(PalletArticleContract::ID, $palletArticleId)->firstOrFail();
+								$palletArticle->number = $article->pivot->number + $item['CANTIDAD'];
+								$palletArticle->update();
+								$updated[] = $palletArticle;
+							}
+						}
+					}
+				}
+
 			}
 		}
 
-		return Response::json( [ 'created' => $created, 'failed' => $failed], 200 );
+		return Response::json( [ 'created' => $created, 'failed' => $failed, 'updated' => $updated, 'deleted' => $deleted], 200 );
 	}
 
 }
