@@ -4,6 +4,8 @@
     <div class="row">
         <div class="col-lg-12">
 
+            @include('partials.msg_success')
+
             @forelse($pallets as $pallet)
                 <div class="box">
                     <header class="dark">
@@ -43,8 +45,6 @@
                     </header>
 
                     <div class="body collapse in" style="overflow-x: hidden;">
-
-                        @include('partials.msg_success')
 
                         <table id="articlesResumeTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table" cellspacing="0" width="100%">
                             <thead>

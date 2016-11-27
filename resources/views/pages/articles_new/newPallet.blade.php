@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="form-actions no-margin-bottom text-center">
-                            <a class="btn btn-default btn-sm" href="{{ back() }}">@lang('general.cancel')</a>
+                            <a class="btn btn-default btn-sm" href="{{ URL::previous() }}">@lang('general.cancel')</a>
                             <input type="submit" class="btn btn-primary" value="@lang('general.next')">
                         </div>
                     </form>

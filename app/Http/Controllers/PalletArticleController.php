@@ -130,6 +130,9 @@ class PalletArticleController extends Controller
 			}
 
 			if ($palletArticle->pallet->articles->count() == 0) {
+				$palletsInLocation = $this->palletRepository->getAllByStoreLocationPositionDesc($palletArticle->pallet->store->id, $palletArticle->pallet->location);
+				$palletArticle->pallet->extract($palletsInLocation);
+
 				$palletArticle->pallet->delete();
 			}
 
