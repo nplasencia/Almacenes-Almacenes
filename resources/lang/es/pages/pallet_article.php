@@ -13,6 +13,7 @@ return [
 	'number'             => 'Unidades',
 	'weight'             => 'Peso total',
 	'storeName'          => 'Almacén',
+	'article'            => 'Artículo',
 	'location'           => 'Ubicación',
 	'position'           => 'Posición',
 	'registeredDate'     => 'Fecha de registro',
