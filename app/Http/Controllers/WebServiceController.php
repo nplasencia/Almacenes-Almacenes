@@ -307,7 +307,6 @@ class WebServiceController extends Controller
 					if (isset($abonos[$item['DOC']][$item['ART']])) {
 						$itemAbono = $abonos[$item['DOC']][$item['ART']];
 						$item['CANTIDAD'] = $item['CANTIDAD'] + $itemAbono['CANTIDAD'];
-						Log::info( "[WebService] Tenemos abono: {$item['DOC']}-{$item['ART']}-{$item['LOTE']}" );
 					}
 
 					$newArticle = ArticleNew::create( [
@@ -320,7 +319,6 @@ class WebServiceController extends Controller
 						ArticleNewContract::EXPIRATION => $item['CADUCIDAD'] != null ?
 							Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['CADUCIDAD'])->format(Globals::CARBON_SQL_FORMAT) : null,
 					] );
-					$this->addMovement($item);
 
 					$created[] = $newArticle;
 				} catch ( \PDOException $exception ) {
@@ -328,6 +326,12 @@ class WebServiceController extends Controller
 				} catch ( Exception $e ) {
 					Log::info( "[WebService] Error creating newArticle: {$e->getMessage()}" );
 					$failed[] = [ "{$item['ART']}-{$item['LOTE']}", $e ];
+				}
+
+				try {
+					$this->addMovement($item);
+				} catch ( Exception $e ) {
+					Log::info( "[WebService] Error creating AlfagesMovement: {$e->getMessage()}" );
 				}
 			} else if ($item['TIPODOC'] == 'Alb Vta') {
 

@@ -19,12 +19,15 @@ class CreateAlfagesMovementsTable extends Migration
 		    $table->increments(AlfagesMovementsContract::ID);
 		    $table->string(AlfagesMovementsContract::STORE);
 		    $table->date(AlfagesMovementsContract::DATE);
-		    $table->string(AlfagesMovementsContract::TYPE);
+		    $table->string(AlfagesMovementsContract::DATE);
 		    $table->string(AlfagesMovementsContract::DOCUMENT);
 		    $table->string(AlfagesMovementsContract::ARTICLE);
 		    $table->integer(AlfagesMovementsContract::QUANTITY);
 		    $table->integer(AlfagesMovementsContract::LOT);
 		    $table->timestamps();
+
+		    $table->unique([AlfagesMovementsContract::STORE, AlfagesMovementsContract::DATE, AlfagesMovementsContract::TYPE, AlfagesMovementsContract::DOCUMENT,
+			                AlfagesMovementsContract::ARTICLE, AlfagesMovementsContract::QUANTITY, AlfagesMovementsContract::LOT]);
 	    });
     }
 
