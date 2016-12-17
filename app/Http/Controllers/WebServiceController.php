@@ -63,15 +63,19 @@ class WebServiceController extends Controller
 
 	private function addMovement (Array $item)
 	{
-		AlfagesMovement::create( [
-			AlfagesMovementsContract::STORE    => $item['ALMACEN'],
-			AlfagesMovementsContract::DATE     => Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['FECHA'])->format(Globals::CARBON_SQL_FORMAT),
-			AlfagesMovementsContract::TYPE     => $item['TIPODOC'],
-			AlfagesMovementsContract::DOCUMENT => $item['DOC'],
-			AlfagesMovementsContract::ARTICLE  => $item['ART'],
-			AlfagesMovementsContract::QUANTITY => $item['CANTIDAD'],
-			AlfagesMovementsContract::LOT      => $item['LOTE']
-		] );
+		try {
+			AlfagesMovement::create( [
+				AlfagesMovementsContract::STORE    => $item['ALMACEN'],
+				AlfagesMovementsContract::DATE     => Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['FECHA'])->format(Globals::CARBON_SQL_FORMAT),
+				AlfagesMovementsContract::TYPE     => $item['TIPODOC'],
+				AlfagesMovementsContract::DOCUMENT => $item['DOC'],
+				AlfagesMovementsContract::ARTICLE  => $item['ART'],
+				AlfagesMovementsContract::QUANTITY => $item['CANTIDAD'],
+				AlfagesMovementsContract::LOT      => $item['LOTE']
+			] );
+		} catch ( Exception $e ) {
+			Log::info( "[WebService] Error creating AlfagesMovement: Posible duplicado" );
+		}
 	}
 
 	public function groups(Request $request)
@@ -328,11 +332,9 @@ class WebServiceController extends Controller
 					$failed[] = [ "{$item['ART']}-{$item['LOTE']}", $e ];
 				}
 
-				try {
-					$this->addMovement($item);
-				} catch ( Exception $e ) {
-					Log::info( "[WebService] Error creating AlfagesMovement: Posible duplicado" );
-				}
+
+				$this->addMovement($item);
+
 			} else if ($item['TIPODOC'] == 'Alb Vta') {
 
 				if (!empty($insertedArticle)) {
