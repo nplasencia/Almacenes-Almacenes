@@ -8,7 +8,7 @@ return [
     'surname'      => 'Apellidos',
     'telephone'    => 'Teléfono',
     'email'        => 'E-mail',
-	'send_email'   => 'Recibir notificaciones de productos próximos a caducar',
+	'send_email'   => 'Notificaciones de caducidades',
 	'notification' => 'Enviar email X días antes de caducar',
 
 

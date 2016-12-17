@@ -8,8 +8,8 @@ return [
 	'articles_added_title'  => 'Mercancía añadida al nuevo palé (:storeName ubicación :location)',
 
 	'article'               => 'Mercancía',
-	'number'                => 'Nº de cajas',
-	'weight'                => 'Kg/caja',
+	'number'                => 'Nº de cajas/Bolsas/Kg/Unidades',
+	'weight'                => 'Kg/unidad',
 	'total_weight'          => 'Peso total',
 	'expiration'            => 'Fecha de caducidad',
 
