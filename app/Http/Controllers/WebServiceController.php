@@ -307,6 +307,7 @@ class WebServiceController extends Controller
 					if (isset($abonos[$item['DOC']][$item['ART']])) {
 						$itemAbono = $abonos[$item['DOC']][$item['ART']];
 						$item['CANTIDAD'] = $item['CANTIDAD'] + $itemAbono['CANTIDAD'];
+						Log::info( "[WebService] Tenemos abono: {$item['DOC']}-{$item['ART']}-{$item['LOTE']}" );
 					}
 
 					$newArticle = ArticleNew::create( [
