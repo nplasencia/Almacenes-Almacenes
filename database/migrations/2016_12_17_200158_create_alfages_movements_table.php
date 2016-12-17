@@ -27,7 +27,8 @@ class CreateAlfagesMovementsTable extends Migration
 		    $table->timestamps();
 
 		    $table->unique([AlfagesMovementsContract::STORE, AlfagesMovementsContract::DATE, AlfagesMovementsContract::TYPE, AlfagesMovementsContract::DOCUMENT,
-			                AlfagesMovementsContract::ARTICLE, AlfagesMovementsContract::QUANTITY, AlfagesMovementsContract::LOT]);
+			                AlfagesMovementsContract::ARTICLE, AlfagesMovementsContract::QUANTITY, AlfagesMovementsContract::LOT],
+			                'AlfagesMovementsUniqueIndex');
 	    });
     }
 
