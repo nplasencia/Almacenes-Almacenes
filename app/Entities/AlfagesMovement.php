@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AlfagesMovement extends Model
 {
-    protected $fillable = [AlfagesMovementsContract::STORE, AlfagesMovementsContract::DATE, AlfagesMovementsContract::DOCUMENT,
+    protected $fillable = [AlfagesMovementsContract::STORE, AlfagesMovementsContract::DATE, AlfagesMovementsContract::TYPE, AlfagesMovementsContract::DOCUMENT,
                            AlfagesMovementsContract::ARTICLE, AlfagesMovementsContract::QUANTITY, AlfagesMovementsContract::LOT];
 
 }

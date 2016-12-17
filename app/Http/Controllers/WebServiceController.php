@@ -54,6 +54,7 @@ class WebServiceController extends Controller
 	{
 		return AlfagesMovement::where(AlfagesMovementsContract::STORE, $item['ALMACEN'])
 			->where(AlfagesMovementsContract::DATE, Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['FECHA'])->format(Globals::CARBON_SQL_FORMAT))
+			->where(AlfagesMovementsContract::TYPE, $item['TIPODOC'])
 			->where(AlfagesMovementsContract::DOCUMENT, $item['DOC'])
 			->where(AlfagesMovementsContract::ARTICLE, $item['ART'])
 			->where(AlfagesMovementsContract::QUANTITY, $item['CANTIDAD'])
@@ -65,6 +66,7 @@ class WebServiceController extends Controller
 		AlfagesMovement::create( [
 			AlfagesMovementsContract::STORE    => $item['ALMACEN'],
 			AlfagesMovementsContract::DATE     => Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['FECHA'])->format(Globals::CARBON_SQL_FORMAT),
+			AlfagesMovementsContract::TYPE     => $item['TIPODOC'],
 			AlfagesMovementsContract::DOCUMENT => $item['DOC'],
 			AlfagesMovementsContract::ARTICLE  => $item['ART'],
 			AlfagesMovementsContract::QUANTITY => $item['CANTIDAD'],

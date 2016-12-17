@@ -7,8 +7,9 @@ class AlfagesMovementsContract extends AppContract {
         TABLE_NAME  = 'alfages_movements',
         STORE       = 'store',
         DATE        = 'date',
+	    TYPE        = 'type',
         DOCUMENT    = 'document',
         ARTICLE     = 'article',
         QUANTITY    = 'quantity',
-		LOT         = 'LOT';
+		LOT         = 'lot';
 }
