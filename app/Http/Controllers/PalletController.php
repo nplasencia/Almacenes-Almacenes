@@ -54,7 +54,7 @@ class PalletController extends Controller
 
 		if ($request->get('store_id') == '') {
 			$store = $this->storeRepository->getPickingStoreByCenter(session('center_id'));
-			$pallet->update([PalletContract::STORE_ID => $store->id]);
+			$pallet->update([PalletContract::STORE_ID => $store->id, PalletContract::LOCATION => null, PalletContract::POSITION => null]);
 			session()->flash('success', trans('pages/store_pallets.picking_success'));
 
 		} else {
