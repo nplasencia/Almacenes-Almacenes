@@ -253,7 +253,7 @@ class WebServiceController extends Controller
 
 		foreach ($request->all() as $item) {
 
-			if ($item['TIPODOC'] != 'Alb Com' || $item['TIPODOC'] != 'Fra Com' || $item['TIPODOC'] != 'Alb Vta' || $item['CANTIDAD'] == 0) {
+			if (($item['TIPODOC'] != 'Alb Com' && $item['TIPODOC'] && 'Fra Com' && $item['TIPODOC'] != 'Alb Vta') || $item['CANTIDAD'] == 0) {
 				continue;
 			}
 
