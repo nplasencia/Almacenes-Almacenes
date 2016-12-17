@@ -331,7 +331,7 @@ class WebServiceController extends Controller
 				try {
 					$this->addMovement($item);
 				} catch ( Exception $e ) {
-					Log::info( "[WebService] Error creating AlfagesMovement: {$e->getMessage()}" );
+					Log::info( "[WebService] Error creating AlfagesMovement: Posible duplicado" );
 				}
 			} else if ($item['TIPODOC'] == 'Alb Vta') {
 
