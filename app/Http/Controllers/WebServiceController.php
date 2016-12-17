@@ -254,7 +254,7 @@ class WebServiceController extends Controller
 					}
 					continue;
 				} else {
-					if (!empty($insertedArticle) && $insertedArticle->total == $item['CANTIDAD']) {
+					if (!empty($insertedArticle)) {
 						continue;
 					}
 				}
