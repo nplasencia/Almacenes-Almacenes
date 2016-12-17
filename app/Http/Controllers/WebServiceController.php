@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Commons\AlfagesMovementsContract;
 use App\Commons\ArticleContract;
 use App\Commons\ArticleGroupContract;
 use App\Commons\ArticleNewContract;
@@ -9,6 +10,7 @@ use App\Commons\ArticleSubGroupContract;
 use App\Commons\Globals;
 use App\Commons\PalletArticleContract;
 use App\Commons\StoreContract;
+use App\Entities\AlfagesMovement;
 use App\Entities\Article;
 use App\Entities\ArticleGroup;
 use App\Entities\ArticleNew;
@@ -46,6 +48,28 @@ class WebServiceController extends Controller
 		}
 
 		return null;
+	}
+
+	private function getMovements(Array $item)
+	{
+		return AlfagesMovement::where(AlfagesMovementsContract::STORE, $item['ALMACEN'])
+			->where(AlfagesMovementsContract::DATE, Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['FECHA'])->format(Globals::CARBON_SQL_FORMAT))
+			->where(AlfagesMovementsContract::DOCUMENT, $item['DOC'])
+			->where(AlfagesMovementsContract::ARTICLE, $item['ART'])
+			->where(AlfagesMovementsContract::QUANTITY, $item['CANTIDAD'])
+			->where(AlfagesMovementsContract::LOT, $item['LOTE'])->first();
+	}
+
+	private function addMovement (Array $item)
+	{
+		AlfagesMovement::create( [
+			AlfagesMovementsContract::STORE    => $item['ALMACEN'],
+			AlfagesMovementsContract::DATE     => Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['FECHA'])->format(Globals::CARBON_SQL_FORMAT),
+			AlfagesMovementsContract::DOCUMENT => $item['DOC'],
+			AlfagesMovementsContract::ARTICLE  => $item['ART'],
+			AlfagesMovementsContract::QUANTITY => $item['CANTIDAD'],
+			AlfagesMovementsContract::LOT      => $item['LOTE']
+		] );
 	}
 
 	public function groups(Request $request)
@@ -229,32 +253,49 @@ class WebServiceController extends Controller
 
 		foreach ($request->all() as $item) {
 
+			if ($item['TIPODOC'] != 'Alb Com' || $item['TIPODOC'] != 'Fra Com' || $item['TIPODOC'] != 'Alb Vta' || $item['CANTIDAD'] == 0) {
+				continue;
+			}
+
+			// Comprobamos si el movimiento ya ha sido tratado
+			if (!empty($this->getMovements($item))) {
+				continue;
+			}
+
+			$selectedStore = Store::where(StoreContract::NAME, $item['ALMACEN'])->first();
+			$selectedArticle = Article::where(ArticleContract::CODE, $item['ART'])->first();
+
+			if (empty($selectedStore) || empty($selectedArticle)) {
+				continue;
+			}
+
+			$insertedArticle = ArticleNew::where(ArticleNewContract::ARTICLE_ID, $selectedArticle->id)
+				->where(ArticleNewContract::STORE_ID, $selectedStore->id)
+				->where(ArticleNewContract::DOC, $item['DOC'])->first();
+
 			if ($item['TIPODOC'] == 'Alb Com' || $item['TIPODOC'] == 'Fra Com') {
-
-				$selectedArticle = Article::where(ArticleContract::CODE, $item['ART'])->firstOrFail();
-				$selectedStore = Store::where(StoreContract::NAME, $item['ALMACEN'])->firstOrFail();
-
-				$insertedArticle = ArticleNew::where(ArticleNewContract::ARTICLE_ID, $selectedArticle->id)
-					->where(ArticleNewContract::STORE_ID, $selectedStore->id)
-					->where(ArticleNewContract::DOC, $item['DOC'])->first();
 
 				if ($item['CANTIDAD'] < 0) {
 
 					// Es posible que ya hayamos insertado la compra positiva, la buscamos.
-					if (isset($insertedArticle) && $insertedArticle != null) {
-						if ($insertedArticle->total == ($item['CANTIDAD']*(-1))) {
+					if (!empty($insertedArticle)) {
+
+						$insertedArticle->total = $insertedArticle->total + $item['CANTIDAD'];
+
+						if ($insertedArticle->total == 0) {
 							$insertedArticle->forceDelete();
 						} else {
-							$insertedArticle->total = $insertedArticle->total + $item['CANTIDAD'];
 							$insertedArticle->save();
 						}
 
 					} else {
 						$abonos[$item['DOC']][$item['ART']] = $item;
 					}
+					$this->addMovement($item);
 					continue;
 				} else {
 					if (!empty($insertedArticle)) {
+						$this->addMovement($item);
 						continue;
 					}
 				}
@@ -264,10 +305,6 @@ class WebServiceController extends Controller
 					if (isset($abonos[$item['DOC']][$item['ART']])) {
 						$itemAbono = $abonos[$item['DOC']][$item['ART']];
 						$item['CANTIDAD'] = $item['CANTIDAD'] + $itemAbono['CANTIDAD'];
-					}
-
-					if ($item['CANTIDAD'] == 0) {
-						continue;
 					}
 
 					$newArticle = ArticleNew::create( [
@@ -280,6 +317,7 @@ class WebServiceController extends Controller
 						ArticleNewContract::EXPIRATION => $item['CADUCIDAD'] != null ?
 							Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $item['CADUCIDAD'])->format(Globals::CARBON_SQL_FORMAT) : null,
 					] );
+					$this->addMovement($item);
 
 					$created[] = $newArticle;
 				} catch ( \PDOException $exception ) {
@@ -289,12 +327,22 @@ class WebServiceController extends Controller
 					$failed[] = [ "{$item['ART']}-{$item['LOTE']}", $e ];
 				}
 			} else if ($item['TIPODOC'] == 'Alb Vta') {
-				$selectedArticle = Article::where(ArticleContract::CODE, $item['ART'])->firstOrFail();
-				$selectedStore = Store::where(StoreContract::NAME, $item['ALMACEN'])->first();
-				if ($selectedStore == null){
-					continue;
+
+				if (!empty($insertedArticle)) {
+					// Esto significa que tenemos el artículo en la tabla de nuevos artículos
+					$insertedArticle->total = $insertedArticle->total + $item['CANTIDAD'];
+
+					if ($insertedArticle->total == 0) {
+						$insertedArticle->forceDelete();
+					} else {
+						$insertedArticle->save();
+					}
+					$this->addMovement($item);
 				}
-				$pickingStore = Store::where(StoreContract::CENTER_ID, $selectedStore->center_id)->where(StoreContract::NAME, 'Picking')->with('pallets.articles')->firstOrFail();
+
+				$pickingStore = Store::where(StoreContract::CENTER_ID, $selectedStore->center_id)
+					->where(StoreContract::NAME, 'Picking')
+					->with('pallets.articles')->firstOrFail();
 
 				if ($item['CANTIDAD'] > 0) {
 					//TODO: ¿Qué hacemos con esto? Posiblemente tratarlo como un articleNew
@@ -317,6 +365,7 @@ class WebServiceController extends Controller
 								$palletArticle->update();
 								$updated[] = $palletArticle;
 							}
+							$this->addMovement($item);
 						}
 					}
 				}
