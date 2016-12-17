@@ -15,11 +15,13 @@
             </thead>
             <tbody>
             @foreach($articles as $article)
-                <td>{{ $article->name }}</td>
-                <td>{{ $article->storeName }}</td>
-                <td>{{ $article->location }}</td>
-                <td>{{ $article->position }}</td>
-                <td>{{ $article->expiration }}</td>
+                <tr>
+                    <td>{{ $article->name }}</td>
+                    <td>{{ $article->storeName }}</td>
+                    <td>{{ $article->location }}</td>
+                    <td>{{ $article->position }}</td>
+                    <td>{{ $article->expiration }}</td>
+                </tr>
             @endforeach
             </tbody>
         </table>
