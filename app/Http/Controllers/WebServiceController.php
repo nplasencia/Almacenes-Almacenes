@@ -229,17 +229,18 @@ class WebServiceController extends Controller
 
 		foreach ($request->all() as $item) {
 
-			if ($item['TIPODOC'] == 'Alb Com') {
+			if ($item['TIPODOC'] == 'Alb Com' || $item['TIPODOC'] == 'Fra Com') {
 
 				$selectedArticle = Article::where(ArticleContract::CODE, $item['ART'])->firstOrFail();
 				$selectedStore = Store::where(StoreContract::NAME, $item['ALMACEN'])->firstOrFail();
 
+				$insertedArticle = ArticleNew::where(ArticleNewContract::ARTICLE_ID, $selectedArticle->id)
+					->where(ArticleNewContract::STORE_ID, $selectedStore->id)
+					->where(ArticleNewContract::DOC, $item['DOC'])->first();
+
 				if ($item['CANTIDAD'] < 0) {
 
 					// Es posible que ya hayamos insertado la compra positiva, la buscamos.
-					$insertedArticle = ArticleNew::where(ArticleNewContract::ARTICLE_ID, $selectedArticle->id)->
-												   where(ArticleNewContract::STORE_ID, $selectedStore->id)->
-												   where(ArticleNewContract::DOC, $item['DOC'])->first();
 					if (isset($insertedArticle) && $insertedArticle != null) {
 						if ($insertedArticle->total == ($item['CANTIDAD']*(-1))) {
 							$insertedArticle->forceDelete();
@@ -252,6 +253,10 @@ class WebServiceController extends Controller
 						$abonos[$item['DOC']][$item['ART']] = $item;
 					}
 					continue;
+				} else {
+					if (!empty($insertedArticle) && $insertedArticle->total == $item['CANTIDAD']) {
+						continue;
+					}
 				}
 
 				try {
