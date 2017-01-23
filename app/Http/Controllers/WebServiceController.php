@@ -15,6 +15,7 @@ use App\Entities\Article;
 use App\Entities\ArticleGroup;
 use App\Entities\ArticleNew;
 use App\Entities\ArticleSubGroup;
+use App\Entities\Center;
 use App\Entities\PalletArticle;
 use App\Entities\Store;
 use Carbon\Carbon;
@@ -268,15 +269,15 @@ class WebServiceController extends Controller
 				continue;
 			}
 
-			$selectedStore = Store::where(StoreContract::NAME, $item['ALMACEN'])->first();
+			$selectedCenter = Center::where(StoreContract::NAME, $item['ALMACEN'])->first();
 			$selectedArticle = Article::where(ArticleContract::CODE, $item['ART'])->first();
 
-			if (empty($selectedStore) || empty($selectedArticle)) {
+			if (empty($selectedCenter) || empty($selectedArticle)) {
 				continue;
 			}
 
 			$insertedArticle = ArticleNew::where(ArticleNewContract::ARTICLE_ID, $selectedArticle->id)
-				->where(ArticleNewContract::STORE_ID, $selectedStore->id)
+				->where(ArticleNewContract::CENTER_ID, $selectedCenter->id)
 				->where(ArticleNewContract::DOC, $item['DOC'])->first();
 
 			if ($item['TIPODOC'] == 'Alb Com' || $item['TIPODOC'] == 'Fra Com') {
@@ -315,7 +316,7 @@ class WebServiceController extends Controller
 
 					$newArticle = ArticleNew::create( [
 						ArticleNewContract::ARTICLE_ID => $selectedArticle->id,
-						ArticleNewContract::STORE_ID   => $selectedStore->id,
+						ArticleNewContract::CENTER_ID  => $selectedCenter->id,
 						ArticleNewContract::DOC        => $item['DOC'],
 						ArticleNewContract::LOT        => $item['LOTE'],
 						ArticleNewContract::TOTAL      => $item['CANTIDAD'],
@@ -349,7 +350,7 @@ class WebServiceController extends Controller
 					$this->addMovement($item);
 				}
 
-				$pickingStore = Store::where(StoreContract::CENTER_ID, $selectedStore->center_id)
+				$pickingStore = Store::where(StoreContract::CENTER_ID, $selectedCenter->id)
 					->where(StoreContract::NAME, 'Picking')
 					->with('pallets.articles')->firstOrFail();
 

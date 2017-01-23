@@ -12,7 +12,7 @@ class ArticleNew extends Model
 
 	protected $table = ArticleNewContract::TABLE_NAME;
 
-	protected $fillable = [ArticleNewContract::ARTICLE_ID, ArticleNewContract::STORE_ID, ArticleNewContract::DOC,
+	protected $fillable = [ArticleNewContract::ARTICLE_ID, ArticleNewContract::CENTER_ID, ArticleNewContract::DOC,
 					       ArticleNewContract::LOT, ArticleNewContract::TOTAL, ArticleNewContract::DATE, ArticleNewContract::EXPIRATION];
 
 	// Relations
@@ -21,8 +21,8 @@ class ArticleNew extends Model
 		return $this->belongsTo(Article::class);
 	}
 
-	public function store()
+	public function center()
 	{
-		return $this->belongsTo(Store::class);
+		return $this->belongsTo(Center::class);
 	}
 }
